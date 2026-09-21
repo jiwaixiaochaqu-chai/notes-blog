@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RAG 代码执行时序图 - KnowForge RAG Platform</title>
+  <script src="../assets/vendor/mermaid.min.js"></script>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --ink: #132033;
+      --muted: #64748b;
+      --line: #d8e0ec;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --green: #059669;
+      --shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+      letter-spacing: 0;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 18px 24px 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+    }
+    h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-top: 14px;
+    }
+    button,
+    .link-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--ink);
+      background: #fff;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    button:hover,
+    .link-button:hover {
+      border-color: #93c5fd;
+      color: #1d4ed8;
+      background: var(--blue-soft);
+    }
+    button.active {
+      border-color: #93c5fd;
+      color: #1d4ed8;
+      background: var(--blue-soft);
+      font-weight: 600;
+    }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    main {
+      padding: 18px 24px 28px;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+    .meta h2 {
+      margin: 0 0 4px;
+      font-size: 20px;
+      line-height: 1.35;
+    }
+    .meta-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    .viewport {
+      min-height: calc(100vh - 230px);
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .canvas {
+      position: relative;
+      padding: 24px;
+      transform-origin: top left;
+    }
+    .canvas svg {
+      display: block;
+      max-width: none;
+      height: auto;
+    }
+    .status {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .source-panel {
+      display: none;
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+    .source-panel.visible {
+      display: block;
+    }
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow: auto;
+      white-space: pre;
+      font: 13px/1.6 Consolas, "Cascadia Code", monospace;
+    }
+    .anchor {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+    @media (max-width: 760px) {
+      header,
+      main {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      .meta {
+        grid-template-columns: 1fr;
+      }
+      .meta-actions {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <span id="ch05-intent" class="anchor"></span>
+  <span id="ch06-retrieval-plan" class="anchor"></span>
+  <span id="ch07-query-rewrite" class="anchor"></span>
+  <span id="ch08-milvus-hybrid" class="anchor"></span>
+  <span id="ch09-qaservice" class="anchor"></span>
+  <span id="ch10-rag-pipeline" class="anchor"></span>
+  <span id="ch12-preflight" class="anchor"></span>
+  <span id="ch18-observability" class="anchor"></span>
+  <span id="ch15-ingestion" class="anchor"></span>
+  <header>
+    <h1>RAG 代码执行时序图</h1>
+    <p>独立查看页，适合投屏、放大、横向滚动和复制 Mermaid 源码。</p>
+    <div class="tabs" id="tabs"></div>
+    <div class="toolbar">
+      <button type="button" id="zoomOut">缩小</button>
+      <button type="button" id="zoomIn">放大</button>
+      <button type="button" id="fitWidth">适应宽度</button>
+      <button type="button" id="resetZoom">100%</button>
+      <button type="button" id="toggleSource">显示源码</button>
+      <button type="button" id="copySource">复制 Mermaid</button>
+    </div>
+  </header>
+  <main>
+    <section class="meta">
+      <div>
+        <h2 id="diagramTitle"></h2>
+        <p id="diagramIntro"></p>
+      </div>
+      <div class="meta-actions">
+        <a class="link-button" id="lectureLink" href="#">打开讲义</a>
+      </div>
+    </section>
+    <section class="viewport" id="viewport">
+      <div class="canvas" id="canvas"></div>
+    </section>
+    <p class="status" id="status">缩放：100%</p>
+    <section class="source-panel" id="sourcePanel">
+      <pre id="sourceCode"></pre>
+    </section>
+  </main>
+  <script>
+    const diagrams = {
+      "ch05-intent": {
+        shortTitle: "05 意图分类",
+        title: "第 05 章：意图分类与路由入口",
+        intro: "从用户原话进入，到路由短路、规则候选、BERT 校验、网关仲裁和 RetrievalPlan 的完整顺序。",
+        lecture: "../05-intent-classification.html",
+        source: `sequenceDiagram
+    autonumber
+    participant U as 用户
+    participant API as QAService/RAG 入口
+    participant Input as normalize_user_query()
+    participant Route as decide_route()
+    participant Direct as classify_direct_intent()
+    participant FastFAQ as FAQ 快路径
+    participant Prep as prepare_retrieval()
+    participant Rule as classify_intent()
+    participant Source as infer_source_details()
+    participant Gateway as apply_intent_decision_gateway()
+    participant Model as BertIntentModelService.predict()
+    participant Plan as build_retrieval_plan()
+
+    U->>API: 提交用户原话
+    API->>Input: 清理问候和礼貌前缀
+    Input-->>API: 业务有效问题
+    API->>Route: decide_route(context)
+    Route->>Direct: classify_direct_intent(query, scenario)
+
+    alt 命中问候 / 越界 / 转人工
+        Direct-->>Route: IntentResult(direct_answer)
+        Route-->>API: RouteDecision(direct_answer)
+        API-->>U: 固定文案，结束
+    else 未命中直答
+        Route->>FastFAQ: should_try_faq_fast_path()
+        alt FAQ 精确命中
+            FastFAQ-->>Route: answer + FAQ_QUERY
+            Route-->>API: RouteDecision(faq_exact)
+            API-->>U: FAQ 标准答案，结束
+        else 进入完整检索准备
+            Route-->>API: RouteDecision(retrieval)
+            API->>Prep: prepare_retrieval(context)
+            Prep->>Rule: classify_intent(query, history, scenario)
+            Rule->>Source: infer_source_details(query, scenario)
+            Source-->>Rule: suggested_source / source_score / candidates
+
+            alt 有历史且像追问
+                Rule->>Rule: 构造 FOLLOW_UP 规则候选
+            else 命中 FAQ/知识强规则
+                Rule->>Rule: _strong_rule_domain_intent()<br/>收集候选，按 rule_score + priority 选规则候选
+            else 规则无法明确细分
+                Rule->>Rule: 构造 KNOWLEDGE_QUERY 兜底候选
+            end
+
+            Rule->>Gateway: apply_intent_decision_gateway(rule_result)
+            Gateway->>Model: predict(query, has_history)
+            Model->>Model: softmax 后取模型最高分标签
+            Model-->>Gateway: model_prediction(intent, score, scores)
+            Gateway->>Gateway: _fuse_decision()<br/>按策略仲裁规则候选和模型候选
+            Gateway-->>Rule: 最终 IntentResult
+            Rule-->>Prep: intent / confidence / decision_policy
+            Prep->>Plan: build_retrieval_plan(rewritten_query, intent)
+            Plan-->>Prep: RetrievalPlan
+            Prep-->>API: RetrievalPreparation
+        end
+    end`
+      },
+      "ch06-retrieval-plan": {
+        shortTitle: "06 检索计划",
+        title: "第 06 章：检索策略与动态计划",
+        intro: "按 build_retrieval_plan() 的真实执行顺序展示默认参数和多层规则补丁如何叠加。",
+        lecture: "../06-retrieval-strategy.html",
+        source: `sequenceDiagram
+    autonumber
+    participant Prep as prepare_retrieval()
+    participant Plan as build_retrieval_plan()
+    participant Cat as infer_question_category()/is_table_query()
+    participant Base as _base_params()
+    participant Rules as _apply_plan_rules()
+    participant Intent as _intent_rules()
+    participant Guard as _rule_score_guard()
+    participant CatRules as _category_rules()
+
+    Prep->>Plan: build_retrieval_plan(rewritten_query, intent)
+    Plan->>Cat: infer_question_category(query)
+    Cat-->>Plan: question_category
+    Plan->>Cat: is_table_query(query)
+    Cat-->>Plan: prefer_table
+    Plan->>Base: _base_params(settings, is_short)
+    Base-->>Plan: default params
+    Plan->>Rules: _apply_plan_rules(params, intent, is_short, question_category, prefer_table)
+
+    Rules->>Intent: _intent_rules(settings)
+    Intent-->>Rules: FAQ_QUERY / KNOWLEDGE_QUERY / FOLLOW_UP patches
+    Rules->>Rules: 先按 intent 叠加召回量和阈值
+    Rules->>Guard: _rule_score_guard(settings, rules, intent.confidence)
+    Guard-->>Rules: 低分/中分保护补丁
+    Rules->>CatRules: _category_rules(settings)
+    CatRules-->>Rules: pricing / compliance / troubleshooting / summary 补丁
+    Rules->>Rules: prefer_table 时再收紧表格策略
+    Rules-->>Plan: params + reason
+    Plan-->>Prep: RetrievalPlan`
+      },
+      "ch07-query-rewrite": {
+        shortTitle: "07 改写变体",
+        title: "第 07 章：查询改写与变体生成",
+        intro: "展示追问改写、检索计划开关和查询变体生成的先后关系。",
+        lecture: "../07-query-rewrite-variants.html",
+        source: `sequenceDiagram
+    autonumber
+    participant Prep as prepare_retrieval()
+    participant Rewrite as rewrite_query_if_needed()
+    participant Hist as format_messages()
+    participant LLM1 as 非流式 LLM
+    participant Plan as build_retrieval_plan()
+    participant Variant as generate_query_variants()
+    participant Rule as _heuristic_variants()
+    participant LLM2 as structured LLM
+
+    Prep->>Rewrite: rewrite_query_if_needed(query, history_messages, intent.requires_rewrite)
+    alt 不需要改写 / 没有历史
+        Rewrite-->>Prep: 原问题
+    else 需要改写
+        Rewrite->>Hist: format_messages(history_messages[-8:])
+        Hist-->>Rewrite: 历史摘要文本
+        Rewrite->>LLM1: invoke(REWRITE_SYSTEM_PROMPT)
+        LLM1-->>Rewrite: rewritten_query
+        Rewrite-->>Prep: 改写后的独立检索问题
+    end
+
+    Prep->>Plan: build_retrieval_plan(rewritten_query, intent)
+    Plan-->>Prep: RetrievalPlan(use_query_variants=...)
+    Prep->>Variant: generate_query_variants(rewritten_query, enabled=plan.use_query_variants, allow_short_structured=intent.intent=="FOLLOW_UP")
+
+    alt 功能关闭 / 短结构化问题 / 无变体空间
+        Variant-->>Prep: [原问题]
+    else 规则可覆盖
+        Variant->>Rule: _heuristic_variants(cleaned, max_extra)
+        Rule-->>Variant: 规则变体列表
+        Variant-->>Prep: 变体列表
+    else 规则不足
+        Variant->>LLM2: with_structured_output(QueryVariants).invoke(...)
+        LLM2-->>Variant: 补充变体
+        Variant-->>Prep: 去重后的变体列表
+    end`
+      },
+      "ch08-milvus-hybrid": {
+        shortTitle: "08 Hybrid",
+        title: "第 08 章：Milvus 混合检索",
+        intro: "承接第 06 章的 RetrievalPlan 和第 07 章的 query_variants，展示 FAQ 原问题候选复用、增量变体检索、完整回退和 Milvus Hybrid Search 的顺序。",
+        lecture: "../08-milvus-hybrid-search.html",
+        source: `sequenceDiagram
+    autonumber
+    participant RAG as rag._search_and_generate()
+    participant FAQ as search_faq()
+    participant DOC as search_doc()
+    participant Fast as fast_faq_result
+    participant Store as MilvusHybridStore.search_many()
+    participant Filter as build_source_expr()
+    participant One as search()
+    participant Emb as CachedEmbeddings.embed_query()
+    participant Milvus as Milvus Hybrid Search
+    participant Rank as merge_hits_by_document()/rerank_hits()
+    participant Next as prepare_answer()
+
+    RAG->>FAQ: search_faq(context, prepared)
+    alt plan.run_faq=False
+        FAQ-->>RAG: 空 RetrievalResult(source_type="faq")
+    else 需要查 FAQ
+        alt 快速探测候选可复用
+            FAQ->>Fast: 读取原问题未重排候选
+            FAQ->>Store: search_many(variants[1:], rerank=False)
+            Note over FAQ,Store: 只查询新增变体，不重查原问题
+        else 改写/source/top_k 不满足
+            FAQ->>Store: search_many(query_variants, k=faq_top_k, source_type="faq")
+        end
+        Store->>Filter: 构造 source/kb_version/data_scope expr
+        loop 每个 query variant
+            Store->>One: search(clean_query, rerank=False)
+            One->>Milvus: similarity_search_with_score(query, k, expr, weighted ranker)
+            Milvus->>Emb: dense 字段调用 embedding_function.embed_query(query)
+            Emb-->>Milvus: query dense vector
+            Milvus-->>One: dense + sparse 融合候选
+            One-->>Store: RetrievalHit 列表
+        end
+        Store->>Rank: 合并重复 chunk/faq_id，保留最高分
+        opt plan.rerank=True
+            Rank->>Rank: CrossEncoder 统一重排
+        end
+        Store-->>FAQ: RetrievalResult(source_type="faq")
+        FAQ-->>RAG: faq_result
+    end
+
+    RAG->>DOC: search_doc(context, prepared)
+    alt plan.run_doc=False
+        DOC-->>RAG: 空 RetrievalResult(source_type="doc")
+    else 需要查文档
+        DOC->>Store: search_many(query_variants, k=doc_top_k, source_type="doc")
+        Store-->>DOC: RetrievalResult(source_type="doc")
+        DOC-->>RAG: doc_result
+    end
+    RAG->>Next: prepare_answer(prepared, faq_result, doc_result)`
+      },
+      "ch09-qaservice": {
+        shortTitle: "09 QAService",
+        title: "第 09 章：QAService 核心编排",
+        intro: "展示 WebSocket、QAService 门面和 rag.stream_query() 主链路之间的边界。",
+        lecture: "../09-qaservice-orchestration.html",
+        source: `sequenceDiagram
+    autonumber
+    participant B as 浏览器
+    participant WS as /api/stream
+    participant F as get_qa_service()
+    participant S as QAService.stream_query()
+    participant R as rag.stream_query()
+    participant P as pipeline stages
+    participant T as history.add_turn()
+
+    B->>WS: 发送 WebSocket JSON 请求
+    WS->>F: 获取进程级 QAService
+    F-->>WS: QAService 单例
+    WS->>S: stream_query(...)
+    S->>R: yield from rag_stream_query(...)
+    R->>P: create_query_context()
+    P->>P: decide_route()
+    alt 直答 / FAQ 精确命中
+        P-->>R: 直接答案事件
+        R-->>S: event stream
+    else 进入完整检索链路
+        P->>P: prepare_retrieval()
+        P->>P: search_faq() / search_doc()
+        P->>P: prepare_answer() / stream_llm_answer()
+        P-->>R: token/status/end 事件
+        R-->>S: event stream
+    end
+    S-->>WS: 逐事件透传
+    WS-->>B: send_json(event)
+    opt end 事件
+        P->>T: history.add_turn()
+    end`
+      },
+      "ch10-rag-pipeline": {
+        shortTitle: "10 Pipeline",
+        title: "第 10 章：RAG Pipeline 主流程",
+        intro: "展示 stream_query() 内部从创建上下文到路由、检索、生成、保存历史和 Trace 的完整短路点。",
+        lecture: "../10-rag-pipeline.html",
+        source: `sequenceDiagram
+    autonumber
+    participant API as QAService.stream_query()
+    participant RAG as rag.stream_query()
+    participant Ctx as create_query_context()
+    participant Route as decide_route()
+    participant Prep as prepare_retrieval()
+    participant Fast as try_fast_faq_direct_answer()
+    participant FAQ as search_faq()
+    participant Doc as search_doc()
+    participant Ans as prepare_answer()
+    participant LLM as stream_llm_answer()
+    participant Hist as history.add_turn()
+    participant Trace as finish_success()
+
+    API->>RAG: yield from rag_stream_query(...)
+    RAG->>Ctx: 创建请求上下文
+    RAG->>Route: decide_route(context)
+    alt 明确直出意图
+        Route-->>RAG: RouteDecision(direct_answer)
+        RAG->>Hist: _finish_with_single_answer()
+        RAG->>Trace: finish_success()
+    else 非明确直出意图
+        Route->>Fast: 原问题 FAQ 快速探测
+        alt FAQ 精确命中
+            Fast-->>Route: answer + FAQ_QUERY
+            Route-->>RAG: RouteDecision(faq_exact)
+            RAG->>Hist: _finish_with_single_answer()
+            RAG->>Trace: finish_success()
+        else 未精确命中
+            Fast-->>Route: 保留 fast_faq_result
+            Route-->>RAG: route=retrieval
+            RAG->>Prep: prepare_retrieval(context)
+            Prep-->>RAG: RetrievalPreparation
+            RAG->>FAQ: search_faq(context, prepared)
+            alt 原问题候选可复用
+                FAQ->>FAQ: 仅补查 variants[1:]，合并去重后统一重排
+            else 改写/source/top_k 不一致
+                FAQ->>FAQ: 完整 search_many(query_variants)
+            end
+            alt FAQ 直出
+                FAQ-->>RAG: direct_answer
+                RAG->>Hist: _finish_with_single_answer()
+                RAG->>Trace: finish_success()
+            else 继续检索
+                RAG->>Doc: search_doc(context, prepared)
+                RAG->>Ans: prepare_answer(context, prepared, faq_result, doc_result)
+                alt 信息不足
+                    Ans-->>RAG: insufficient_context
+                    RAG->>Hist: _finish_with_single_answer()
+                    RAG->>Trace: finish_success()
+                else 进入生成
+                    Ans-->>RAG: AnswerPreparation
+                    RAG->>LLM: stream_llm_answer(system_prompt, user_prompt)
+                    LLM-->>RAG: token chunks
+                    RAG->>Hist: history.add_turn()
+                    RAG->>Trace: finish_success()
+                end
+            end
+        end
+    end`
+      },
+      "ch12-preflight": {
+        shortTitle: "12 启动预热",
+        title: "第 12 章：启动前置校验与模型预热",
+        intro: "展示必须完成的 BERT、BGE、Reranker、Milvus 预热，以及不阻断服务就绪的 LLM 状态探测。",
+        lecture: "../12-app-entry-preflight.html",
+        source: `sequenceDiagram
+    autonumber
+    participant Server as FastAPI lifespan
+    participant Preflight as validate_runtime_environment()
+    participant DB as MySQL / KB version
+    participant Intent as warmup_intent_decision_gateway()
+    participant Warm as retrieval warmup thread
+    participant Embed as BGE Embedding
+    participant Rank as CrossEncoder Reranker
+    participant Milvus as Milvus Collections
+    participant LLM as LLM status probe
+
+    Server->>Preflight: 校验配置和依赖
+    Preflight->>DB: bootstrap schema / 校验 active KB
+    DB-->>Server: 基础运行条件通过
+    Server->>Intent: 加载 BERT 并执行样本预测
+    Intent-->>Server: ready
+    Server->>LLM: create_task(连通性状态探测)
+    Note right of LLM: 只更新状态，不阻断服务就绪
+    Server->>Warm: start_retrieval_warmup_background()
+    Warm->>Embed: 绕过 Redis 缓存，真实 encode
+    Warm->>Rank: 加载并预测样本对
+    loop 每个场景 FAQ / Doc collection
+        Warm->>Milvus: 创建 store 并读取 collection schema
+    end
+    Server->>Warm: wait_for_retrieval_warmup()
+    alt status=ready
+        Warm-->>Server: 预热摘要
+        Server-->>Server: 开始接收问答流量
+    else failed / timeout
+        Warm-->>Server: 抛出异常
+        Server-->>Server: 启动失败，不接收流量
+    end`
+      },
+      "ch15-ingestion": {
+        shortTitle: "15 入库索引",
+        title: "第 15 章：文档入库与索引链路",
+        intro: "展示离线入库从版本确认、文件增量判断、Milvus 写入到 manifest 回写的主顺序。",
+        lecture: "../15-ingestion-pipeline.html",
+        source: `sequenceDiagram
+    autonumber
+    participant CLI as 入库脚本
+    participant Svc as ingest_directory()
+    participant Ver as KnowledgeBaseVersionStore
+    participant Man as IndexManifest
+    participant Loader as load_file()
+    participant Norm as normalize_documents()
+    participant Split as split_documents()
+    participant Store as doc_store.add_documents()
+    participant DB as Milvus/MySQL
+
+    CLI->>Svc: 传入目录、场景、版本、数据域参数
+    Svc->>Ver: resolve_scenario() / ensure_version()
+    Ver-->>Svc: active_kb_version + version_seq
+    Svc->>Man: 创建 manifest
+    loop 每个文件
+        Svc->>Svc: _ingest_single_file(path, context)
+        alt 文件后缀不支持 / 指纹未变化
+            Svc-->>CLI: 跳过该文件
+        else 需要重建或首次入库
+            Svc->>Loader: load_file(path)
+            Loader-->>Svc: Documents
+            Svc->>Norm: normalize_documents(...)
+            Norm-->>Svc: 标准化 Documents
+            Svc->>Split: split_documents(...)
+            Split-->>Svc: chunks + chunk_ids
+            Svc->>DB: delete 旧 chunk_id（如存在）
+            Svc->>Store: add_documents(chunks)
+            Store-->>Svc: 写入完成
+            Svc->>Man: update(record_manifest)
+        end
+    end
+    Svc->>DB: _expire_missing_base_records()
+    Svc->>Ver: record_ingest_result(...)
+    Ver-->>Svc: 入库统计写回 MySQL`
+      },
+      "ch18-observability": {
+        shortTitle: "18 Trace",
+        title: "第 18 章：Trace 与 FAQ 复用诊断",
+        intro: "展示阶段耗时、FAQ 快速探测候选复用、缓存事件和最终 Trace metadata 如何汇总。",
+        lecture: "../18-observability-tracing.html",
+        source: `sequenceDiagram
+    autonumber
+    participant Ctx as RAGQueryContext
+    participant Fast as faq_fast_retrieval
+    participant FAQ as search_faq()
+    participant Cache as Retrieval Cache
+    participant Store as MilvusHybridStore
+    participant Trace as record_query_trace()
+    participant UI as 前端检索诊断
+
+    Ctx->>Fast: run_stage(原问题快速探测)
+    Fast->>Cache: 读取原问题 FAQ 候选
+    alt 未精确命中且可复用
+        Fast-->>FAQ: fast_faq_result + source + top_k
+        FAQ->>Cache: faq_variant_retrieval(variants[1:])
+        Cache->>Store: 只检索新增变体
+        Store-->>FAQ: 变体候选
+        FAQ->>FAQ: 合并去重并统一 rerank
+        FAQ->>Ctx: faq_reused_from_fast_path=true
+    else 改写/source/top_k 不一致
+        FAQ->>Cache: faq_retrieval(query_variants)
+        Cache->>Store: 完整 FAQ 检索
+        FAQ->>Ctx: faq_reuse_reason=full_faq_search_required
+    end
+    Ctx->>Ctx: finalize_timings() / slowest_stage
+    Ctx->>Trace: record_trace(retrieval_info, cache_events)
+    Trace-->>UI: FAQ 复用、补查变体、阶段耗时`
+      }
+    };
+
+    let currentId = "ch05-intent";
+    let zoom = 1;
+    let baseWidth = 1200;
+    let baseHeight = 800;
+
+    const tabs = document.getElementById("tabs");
+    const title = document.getElementById("diagramTitle");
+    const intro = document.getElementById("diagramIntro");
+    const lectureLink = document.getElementById("lectureLink");
+    const viewport = document.getElementById("viewport");
+    const canvas = document.getElementById("canvas");
+    const status = document.getElementById("status");
+    const sourcePanel = document.getElementById("sourcePanel");
+    const sourceCode = document.getElementById("sourceCode");
+
+    function buildTabs() {
+      Object.entries(diagrams).forEach(([id, item]) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = item.shortTitle;
+        button.dataset.id = id;
+        button.addEventListener("click", () => {
+          location.hash = id;
+          loadDiagram(id);
+        });
+        tabs.appendChild(button);
+      });
+    }
+
+    function activeTab(id) {
+      tabs.querySelectorAll("button").forEach((button) => {
+        button.classList.toggle("active", button.dataset.id === id);
+      });
+    }
+
+    function setCanvasSize() {
+      canvas.style.width = Math.ceil(baseWidth * zoom + 48) + "px";
+      canvas.style.height = Math.ceil(baseHeight * zoom + 48) + "px";
+      const svg = canvas.querySelector("svg");
+      if (svg) {
+        svg.style.transformOrigin = "top left";
+        svg.style.transform = `scale(${zoom})`;
+      }
+      status.textContent = `缩放：${Math.round(zoom * 100)}%`;
+    }
+
+    function measureSvg() {
+      const svg = canvas.querySelector("svg");
+      if (!svg) {
+        return;
+      }
+      svg.removeAttribute("height");
+      svg.style.maxWidth = "none";
+      const viewBox = svg.viewBox && svg.viewBox.baseVal;
+      baseWidth = viewBox && viewBox.width ? viewBox.width : Math.max(svg.getBoundingClientRect().width, 1000);
+      baseHeight = viewBox && viewBox.height ? viewBox.height : Math.max(svg.getBoundingClientRect().height, 700);
+    }
+
+    async function loadDiagram(id) {
+      currentId = diagrams[id] ? id : "ch05-intent";
+      const item = diagrams[currentId];
+      activeTab(currentId);
+      title.textContent = item.title;
+      intro.textContent = item.intro;
+      lectureLink.href = item.lecture;
+      sourceCode.textContent = item.source;
+      canvas.innerHTML = "正在绘制时序图...";
+      try {
+        const result = await mermaid.render(`rag-sequence-${currentId}-${Date.now()}`, item.source);
+        canvas.innerHTML = result.svg;
+        zoom = 1;
+        requestAnimationFrame(() => {
+          measureSvg();
+          setCanvasSize();
+          fitWidth();
+        });
+      } catch (error) {
+        canvas.textContent = "Mermaid 渲染失败，请检查源码。";
+        console.error(error);
+      }
+    }
+
+    function fitWidth() {
+      const available = Math.max(viewport.clientWidth - 64, 360);
+      zoom = Math.min(2.5, Math.max(0.35, available / baseWidth));
+      setCanvasSize();
+      viewport.scrollLeft = 0;
+      viewport.scrollTop = 0;
+    }
+
+    function copySource() {
+      const source = diagrams[currentId].source;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(source).then(() => {
+          status.textContent = `已复制 Mermaid 源码，当前缩放：${Math.round(zoom * 100)}%`;
+        });
+        return;
+      }
+      const textarea = document.createElement("textarea");
+      textarea.value = source;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
+      status.textContent = `已复制 Mermaid 源码，当前缩放：${Math.round(zoom * 100)}%`;
+    }
+
+    document.getElementById("zoomIn").addEventListener("click", () => {
+      zoom = Math.min(3, zoom + 0.15);
+      setCanvasSize();
+    });
+    document.getElementById("zoomOut").addEventListener("click", () => {
+      zoom = Math.max(0.35, zoom - 0.15);
+      setCanvasSize();
+    });
+    document.getElementById("resetZoom").addEventListener("click", () => {
+      zoom = 1;
+      setCanvasSize();
+    });
+    document.getElementById("fitWidth").addEventListener("click", fitWidth);
+    document.getElementById("copySource").addEventListener("click", copySource);
+    document.getElementById("toggleSource").addEventListener("click", () => {
+      sourcePanel.classList.toggle("visible");
+    });
+    window.addEventListener("hashchange", () => {
+      const id = location.hash.replace("#", "");
+      if (diagrams[id]) {
+        loadDiagram(id);
+      }
+    });
+
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: "loose",
+      theme: "base",
+      sequence: {
+        useMaxWidth: false,
+        showSequenceNumbers: true,
+        actorMargin: 82,
+        diagramMarginX: 36,
+        diagramMarginY: 24,
+        messageMargin: 40,
+        noteMargin: 12
+      },
+      themeVariables: {
+        background: "#ffffff",
+        primaryColor: "#eff6ff",
+        primaryBorderColor: "#2563eb",
+        primaryTextColor: "#0f172a",
+        actorBkg: "#eff6ff",
+        actorBorder: "#2563eb",
+        actorTextColor: "#0f172a",
+        signalColor: "#334155",
+        signalTextColor: "#0f172a",
+        noteBkgColor: "#fffbeb",
+        noteTextColor: "#0f172a",
+        noteBorderColor: "#d97706",
+        fontFamily: "Microsoft YaHei, Segoe UI, sans-serif",
+        fontSize: "15px"
+      }
+    });
+
+    buildTabs();
+    loadDiagram(location.hash.replace("#", "") || currentId);
+  </script>
+</body>
+</html>

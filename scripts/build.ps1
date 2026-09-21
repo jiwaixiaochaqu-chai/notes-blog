@@ -25,3 +25,10 @@ foreach ($route in $routes) {
   Set-Content -LiteralPath (Join-Path $routeDir "index.html") -Value $routeHtml -NoNewline -Encoding UTF8
 }
 
+# RAG 栏目：完整课件站（mkdocs 静态站，内部全是相对链接）铺到 dist/rag/，
+# 覆盖上面写入的 SPA 模板页，访问 /rag/ 直接呈现课件首页
+$courseware = Join-Path $root "courseware"
+if (Test-Path -LiteralPath $courseware) {
+  Copy-Item -Path (Join-Path $courseware "*") -Destination (Join-Path $dist "rag") -Recurse -Force
+}
+

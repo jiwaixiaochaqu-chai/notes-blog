@@ -1,0 +1,188 @@
+%%{init: {"theme": "base", "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 36, "rankSpacing": 48}, "themeVariables": {"fontFamily": "Microsoft YaHei, Segoe UI, Arial, sans-serif", "fontSize": "16px", "primaryColor": "#ffffff", "primaryTextColor": "#111827", "primaryBorderColor": "#cbd5e1", "lineColor": "#64748b"}}}%%
+flowchart TD
+    LEG09["图例：第09章 应用层入口"]:::ch09
+    LEG10["图例：第10章 Pipeline 主编排"]:::ch10
+    LEG10P["图例：第10章 Prompt Profile 与 Prompt 组装"]:::ch10
+
+    A["用户请求<br/>HTTP / WebSocket"] --> A1["第09章：QAService.stream_query()<br/>应用层统一入口"]:::ch09
+
+    A1 --> A2["第10章：rag.stream_query()<br/>RAG Pipeline 主编排"]:::ch10
+
+    A2 --> A3["create_query_context()<br/>创建请求上下文<br/>scenario / session_id / trace_id / DataScope / kb_version"]:::ch10
+
+    A3 --> B["normalize_user_query()<br/>输入归一化"]
+
+    B --> C["decide_route()<br/>第05章：入口路由"]
+
+    C --> D{"是否可直接收口？"}
+
+    D -->|"问候 / 转人工 / 越界 / source 边界"| E["route = direct_answer<br/>直接返回 answer"]
+
+    E --> Z1["_finish_with_single_answer()<br/>统一直出收尾"]:::ch10
+
+    D -->|"FAQ 精确命中"| E2["route = faq_exact<br/>FAQ 精确直出"]
+    E2 --> Z1
+
+    D -->|"不能直接收口"| F["route = retrieval<br/>进入检索准备链路"]
+
+    F --> U["load_history()<br/>第07章：加载历史上下文<br/>历史摘要 + 最近消息"]
+
+    U --> G["classify_intent()<br/>第05章：检索意图识别"]
+    G --> GD["apply_intent_decision_gateway()<br/>规则候选 + 模型候选 + 风险标签 + 策略版本"]
+
+    GD --> H{"检索意图类型"}
+
+    H -->|"FAQ_QUERY"| I["FAQ 类问题<br/>例如：流程是什么 / 怎么办"]
+    H -->|"KNOWLEDGE_QUERY"| J["知识查询<br/>例如：制度说明 / 规则解释 / 多资料综合"]
+    H -->|"FOLLOW_UP"| K["追问问题<br/>例如：那审批呢 / 这个呢"]
+
+    I --> L["IntentResult<br/>intent / rule_score / final_score / reason / decision_policy / risk_tags / suggested_source / requires_rewrite"]
+    J --> L
+    K --> L
+
+    L --> V{"requires_rewrite=True<br/>且存在历史？"}
+
+    V -->|"否"| W["保持原问题<br/>不做追问改写"]
+
+    V -->|"是"| X["format_messages()<br/>历史消息压缩<br/>只取最近8条"]
+
+    X --> Y["rewrite_query_if_needed()<br/>第07章：追问改写<br/>结合历史上下文生成独立检索问题"]
+
+    W --> Z["rewritten_query<br/>原问题或改写后的问题"]
+    Y --> Z
+
+    Z --> M["build_retrieval_plan(rewritten_query, intent)<br/>第06章：动态检索计划"]
+
+    M --> N["基础参数<br/>run_faq / run_doc / top_k / threshold"]
+
+    N --> O["规则1：意图分支<br/>FAQ 优先 / 文档增强 / 追问扩召回"]
+    O --> P["规则2：短问题保护<br/>提高 FAQ 直出门槛"]
+    P --> Q["规则3：rule_score 保护<br/>低分更保守，多召回证据"]
+    Q --> R["规则4：问题类别保护<br/>费用 / 合规 / 排障 / 总结"]
+    R --> S["规则5：表格偏好<br/>禁用模糊 FAQ 直出，扩大文档候选"]
+
+    S --> T["RetrievalPlan<br/>第06章输出<br/>run_faq / run_doc / use_query_variants / top_k / threshold / rerank"]
+
+    T --> AA{"RetrievalPlan.use_query_variants=True？"}
+
+    AA -->|"否"| AB["只使用 rewritten_query<br/>单查询进入检索"]
+
+    AA -->|"是"| AC["generate_query_variants()<br/>第07章：查询变体生成"]
+
+    AC --> AD{"本地规则是否命中？"}
+
+    AD -->|"是"| AE["配置化变体<br/>读取 config/rules.toml<br/>流程 -> SOP / 处理步骤 / 办理流程"]
+
+    AD -->|"否"| AF["LLM 结构化生成变体<br/>QueryVariants"]
+
+    AE --> AG["去重 / 限量<br/>原问题排第一位"]
+    AF --> AG
+
+    AG --> AH["query_variants<br/>多个等价检索表达"]
+    AB --> AH
+
+    AH --> P10A["第10章：select_prompt_profile()<br/>build_answer_prompt_profile(intent, scenario, rewritten_query)"]:::ch10
+    P10A --> P10B["PromptProfile<br/>faq_answer / knowledge_answer / follow_up<br/>pricing_guard / compliance_guard / troubleshooting_steps / default_answer"]:::ch10
+    P10B --> P10C["写入 prepared.prompt_profile<br/>同步到 retrieval_info.prompt_profile 便于诊断"]:::ch10
+
+    P10C --> BA["构造检索上下文<br/>第08章<br/>kb_version / source_filter / DataScope"]
+
+    BA --> BB["active_kb_version<br/>当前知识库版本"]
+    BA --> BC["DataScope<br/>tenant_id / dataset_id / visibility / user_roles"]
+    BA --> BD["effective_source_filter<br/>前端显式选择 or intent.suggested_source"]
+
+    BB --> BE["第08章：FAQ / Doc 分层检索调度"]
+    BC --> BE
+    BD --> BE
+
+    BE --> BF{"RetrievalPlan.run_faq=True？"}
+
+    BF -->|"否"| BG["跳过 FAQ 检索<br/>返回空 faq_result"]
+
+    BF -->|"是"| BH["search_faq()<br/>get_faq_store().search_many()<br/>FAQ collection 检索<br/>k = plan.faq_top_k"]
+
+    BH --> BI["MilvusHybridStore.search_many()<br/>FAQ 内部 Hybrid Search<br/>Dense 向量召回 + BM25 Sparse 召回"]
+
+    BI --> BJ["过滤条件<br/>kb_version / source / tenant / visibility / role"]
+
+    BJ --> BK["多查询结果合并<br/>按文档去重<br/>保留最高分"]
+
+    BK --> BL{"plan.rerank=True？"}
+
+    BL -->|"是"| BM["CrossEncoder Reranker<br/>统一重排 FAQ 候选"]
+    BL -->|"否"| BN["按 Hybrid Score 排序 FAQ 候选"]
+
+    BM --> BO["faq_result<br/>RetrievalResult"]
+    BN --> BO
+    BG --> BO
+
+    BO --> BP{"get_faq_direct_answer()<br/>FAQ 是否满足直出？"}
+
+    BP -->|"是"| BQ["hit_type = faq_direct<br/>使用 FAQ 标准答案"]
+    BQ --> Z1
+
+    BP -->|"否"| BR{"RetrievalPlan.run_doc=True？"}
+
+    BR -->|"否"| BS["跳过 Doc 检索<br/>返回空 doc_result"]
+
+    BR -->|"是"| BT["search_doc()<br/>get_doc_store().search_many()<br/>Doc collection 检索<br/>k = plan.doc_top_k"]
+
+    BT --> BU["MilvusHybridStore.search_many()<br/>Doc 内部 Hybrid Search<br/>Dense 向量召回 + BM25 Sparse 召回"]
+
+    BU --> BV["过滤条件<br/>kb_version / source / tenant / visibility / role"]
+
+    BV --> BW["多查询结果合并<br/>按文档去重<br/>保留最高分"]
+
+    BW --> BX{"plan.rerank=True？"}
+
+    BX -->|"是"| BY["CrossEncoder Reranker<br/>统一重排 Doc 候选"]
+    BX -->|"否"| BZ["按 Hybrid Score 排序 Doc 候选"]
+
+    BY --> CA["doc_result<br/>RetrievalResult"]
+    BZ --> CA
+    BS --> CA
+
+    CA --> CB["prepare_answer()<br/>第10章：构造回答上下文"]:::ch10
+
+    CB --> CC["select_context_docs()<br/>合并 FAQ + Doc 候选<br/>按分数阈值和 final_context_top_n 选择上下文"]:::ch10
+
+    CC --> CD["source_payloads()<br/>按上下文和来源策略生成 sources"]:::ch10
+
+    CD --> P10D["第10章：Prompt 填充<br/>prepared.prompt_profile.user_template.format(...)"]:::ch10
+    P10D --> P10E["system_prompt + user_prompt<br/>注入 history / question / context"]:::ch10
+    P10E --> CG["AnswerPreparation<br/>context_docs / sources / hit_type<br/>system_prompt / user_prompt"]:::ch10
+
+    CG --> CE{"context_docs 是否为空？"}
+
+    CE -->|"是"| CF["build_insufficient_context_answer()<br/>信息不足兜底回答"]:::ch10
+    CF --> Z1
+
+    CE -->|"否"| CH["stream_llm_answer()<br/>第10章：LLM 流式生成"]:::ch10
+
+    CH --> CI["逐 chunk 输出 token_event<br/>前端流式展示"]:::ch10
+
+    CI --> CJ["context.answer_parts<br/>累积 raw_answer"]:::ch10
+
+    CJ --> CK["enforce_answer_citations()<br/>引用补强<br/>确保答案带来源编号"]:::ch10
+
+    CK --> CL{"引用补强后答案是否有效？"}
+
+    CL -->|"否"| CM["信息不足兜底<br/>避免无依据回答"]:::ch10
+    CM --> Z1
+
+    CL -->|"是"| CN["history.add_turn()<br/>写入对话历史"]:::ch10
+
+    CN --> CO["finish_success()<br/>end_event + record_trace"]:::ch10
+
+    Z1 --> Z2["token_event<br/>推送完整答案"]:::ch10
+
+    Z2 --> Z3["history.add_turn()<br/>写入对话历史"]:::ch10
+
+    Z3 --> Z4["finish_success()<br/>end_event + record_trace"]:::ch10
+
+    CO --> CP["最终输出<br/>answer / sources / hit_type / intent / retrieval / trace_id / stage_timings"]:::ch10
+    Z4 --> CP
+
+    classDef ch09 fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#0f172a;
+    classDef ch10 fill:#ffedd5,stroke:#f97316,stroke-width:2px,color:#0f172a;
+    classDef default fill:#ffffff,stroke:#cbd5e1,stroke-width:1.4px,color:#111827;

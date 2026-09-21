@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第 05-08 章检索主链路流程图 - KnowForge RAG Platform</title>
+  <script src="../assets/vendor/mermaid.min.js"></script>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --ink: #142033;
+      --muted: #5b6b82;
+      --line: #d8e0ec;
+      --blue: #2563eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+      letter-spacing: 0;
+    }
+    header {
+      padding: 24px 32px 18px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+      line-height: 1.3;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    main {
+      padding: 24px 32px 36px;
+    }
+    .diagram {
+      width: 100%;
+      min-height: calc(100vh - 150px);
+      padding: 20px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      padding: 4px 10px;
+      color: #1d4ed8;
+      background: #eff6ff;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>第 05-08 章检索主链路流程图</h1>
+    <p>这张图把入口路由、意图决策网关、查询改写、动态检索计划、FAQ/Doc 分层检索和 Milvus Hybrid Search 串在一起，便于快速校对主链路顺序。</p>
+    <div class="meta">
+      <span class="pill">V1.0</span>
+      <span class="pill">CH05-08</span>
+      <span class="pill">更新日期 2026-07-06</span>
+    </div>
+  </header>
+  <main>
+    <div class="diagram">
+      <pre class="mermaid">
+flowchart TD
+    A["用户问题"] --> B["normalize_user_query()<br/>输入归一化"]
+
+    B --> C["decide_route()<br/>第 05 章：入口路由"]
+    C --> D{"是否可直接收口？"}
+    D -->|"问候 / 转人工 / 越界 / source 边界"| E["route = direct_answer<br/>直接返回 answer"]
+    D -->|"短标准问答可探测"| FX["FAQ 精确命中探测<br/>只查 FAQ collection"]
+    FX --> FY{"standard_question 精确匹配？"}
+    FY -->|"是"| FZ["route = faq_exact<br/>返回 FAQ 标准答案"]
+    FY -->|"否"| F["route = retrieval<br/>进入检索准备链路"]
+    D -->|"不能直接收口"| F
+
+    F --> U["load_history()<br/>第 07 章：加载历史上下文<br/>历史摘要 + 最近消息"]
+    U --> G["classify_intent()<br/>第 05 章：检索意图识别"]
+    G --> GD["apply_intent_decision_gateway()<br/>规则候选 + 模型候选 + 风险标签 + 策略版本"]
+    GD --> H{"检索意图类型"}
+    H -->|"FAQ_QUERY"| I["FAQ 类问题<br/>例如：流程是什么 / 怎么办"]
+    H -->|"KNOWLEDGE_QUERY"| J["知识查询<br/>例如：制度说明 / 多资料综合"]
+    H -->|"FOLLOW_UP"| K["追问问题<br/>例如：那审批呢 / 这个呢"]
+
+    I --> L["IntentResult<br/>intent / rule_score / final_score / reason<br/>decision_policy / risk_tags / suggested_source / requires_rewrite"]
+    J --> L
+    K --> L
+
+    L --> V{"requires_rewrite=True<br/>且存在历史？"}
+    V -->|"否"| W["保持原问题<br/>不做追问改写"]
+    V -->|"是"| X["format_messages()<br/>历史消息压缩<br/>只取最近 8 条"]
+    X --> Y["rewrite_query_if_needed()<br/>第 07 章：结合历史生成独立检索问题"]
+    W --> Z["rewritten_query<br/>原问题或改写后的问题"]
+    Y --> Z
+
+    Z --> M["build_retrieval_plan(rewritten_query, intent)<br/>第 06 章：动态检索计划"]
+    M --> N["基础参数<br/>run_faq / run_doc / top_k / threshold"]
+    N --> O["规则 1：意图分支<br/>FAQ 优先 / 文档增强 / 追问扩召回"]
+    O --> P["规则 2：短问题保护<br/>提高 FAQ 直出门槛"]
+    P --> Q["规则 3：rule_score 保护<br/>低分更保守，多召回证据"]
+    Q --> R["规则 4：问题类别保护<br/>费用 / 合规 / 排障 / 总结"]
+    R --> S["规则 5：表格偏好<br/>禁用模糊 FAQ 直出，扩大文档候选"]
+    S --> T["RetrievalPlan<br/>run_faq / run_doc / use_query_variants<br/>top_k / threshold / rerank"]
+
+    T --> AA{"RetrievalPlan.use_query_variants=True？"}
+    AA -->|"否"| AB["只使用 rewritten_query<br/>单查询进入检索"]
+    AA -->|"是"| AC["generate_query_variants()<br/>第 07 章：查询变体生成"]
+    AC --> AD{"本地规则是否命中？"}
+    AD -->|"是"| AE["配置化变体<br/>读取 config/rules.toml"]
+    AD -->|"否"| AF["LLM 结构化生成变体<br/>QueryVariants"]
+    AE --> AG["去重 / 限量<br/>原问题排第一位"]
+    AF --> AG
+    AG --> AH["query_variants<br/>多个等价检索表达"]
+    AB --> AH
+
+    AH --> BA["构造检索上下文<br/>第 08 章<br/>kb_version / source_filter / DataScope"]
+    BA --> BB["resolve_active_kb_version()<br/>确定当前知识库版本"]
+    BA --> BC["DataScope<br/>tenant_id / dataset_id / visibility / user_roles"]
+    BA --> BD["source_filter<br/>前端显式选择 or intent.suggested_source"]
+
+    BB --> BE["第 08 章：FAQ / Doc 分层检索调度"]
+    BC --> BE
+    BD --> BE
+
+    BE --> BF{"RetrievalPlan.run_faq=True？"}
+    BF -->|"否"| BG["跳过 FAQ 检索<br/>返回空 faq_result"]
+    BF -->|"是"| BH["get_faq_store().search_many()<br/>FAQ collection 检索<br/>k = plan.faq_top_k"]
+
+    BE --> BI{"RetrievalPlan.run_doc=True？"}
+    BI -->|"否"| BJ["跳过 Doc 检索<br/>返回空 doc_result"]
+    BI -->|"是"| BK["get_doc_store().search_many()<br/>Doc collection 检索<br/>k = plan.doc_top_k"]
+
+    BH --> BL["MilvusHybridStore.search_many()<br/>对 query_variants 逐个检索"]
+    BK --> BM["MilvusHybridStore.search_many()<br/>对 query_variants 逐个检索"]
+
+    BL --> BN["单个 collection 内 Hybrid Search<br/>Dense 向量召回 + BM25 Sparse 召回"]
+    BM --> BO["单个 collection 内 Hybrid Search<br/>Dense 向量召回 + BM25 Sparse 召回"]
+
+    BN --> BP["过滤条件<br/>kb_version / source / tenant / visibility / role"]
+    BO --> BQ["过滤条件<br/>kb_version / source / tenant / visibility / role"]
+
+    BP --> BR["多查询结果合并<br/>按文档去重<br/>保留最高分"]
+    BQ --> BS["多查询结果合并<br/>按文档去重<br/>保留最高分"]
+
+    BR --> BT{"plan.rerank=True？"}
+    BS --> BU{"plan.rerank=True？"}
+
+    BT -->|"是"| BV["CrossEncoder Reranker<br/>统一重排 FAQ 候选"]
+    BT -->|"否"| BW["按 Hybrid Score 排序 FAQ 候选"]
+    BU -->|"是"| BX["CrossEncoder Reranker<br/>统一重排 Doc 候选"]
+    BU -->|"否"| BY["按 Hybrid Score 排序 Doc 候选"]
+
+    BV --> BZ["faq_result<br/>RetrievalResult"]
+    BW --> BZ
+    BG --> BZ
+    BX --> CA["doc_result<br/>RetrievalResult"]
+    BY --> CA
+    BJ --> CA
+
+    BZ --> CB["source_payloads()<br/>输出 FAQ 来源"]
+    CA --> CC["source_payloads()<br/>输出 Doc 来源"]
+    CB --> CD["第 08 章输出<br/>faq_sources / doc_sources<br/>候选证据列表"]
+    CC --> CD
+
+    CD --> CE["交给后续章节<br/>第 09 章 QAService 编排<br/>第 10 章 RAG Pipeline 生成答案"]
+      </pre>
+    </div>
+  </main>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: "default", flowchart: { htmlLabels: true, curve: "basis" } });
+  </script>
+</body>
+</html>

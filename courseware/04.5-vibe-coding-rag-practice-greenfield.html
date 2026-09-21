@@ -1,0 +1,2689 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="基于 LangChain + Milvus Hybrid Search 的 KnowForge RAG Platform — 19 讲系统课程与一个实践单元">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>04.5 vibe coding rag practice greenfield - KnowForge RAG Platform — 系统讲义</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/site-overrides.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="index.html" title="KnowForge RAG Platform — 系统讲义" class="md-header__button md-logo" aria-label="KnowForge RAG Platform — 系统讲义" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KnowForge RAG Platform — 系统讲义
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              04.5 vibe coding rag practice greenfield
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换至深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换至深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换至浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换至浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="KnowForge RAG Platform — 系统讲义" class="md-nav__button md-logo" aria-label="KnowForge RAG Platform — 系统讲义" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KnowForge RAG Platform — 系统讲义
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="course-outline.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    课程大纲
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="animation/business-flow.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📊 业务流程图
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一阶段：基础概念
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第一阶段：基础概念
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01-project-overview.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 项目概述与 Docker 环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02-rag-fundamentals.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 RAG 核心概念深入
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二阶段：核心 RAG 链路
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第二阶段：核心 RAG 链路
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03-langchain-ecosystem.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 LangChain 生态系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04-milvus-index-and-operations.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 Milvus 索引机制与基本操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04.5-vibe-coding-rag-practice.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二阶段实践：Vibe Coding 实践（简易混合检索 RAG）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05-intent-classification.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 意图分类
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="06-retrieval-strategy.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 检索策略与动态计划
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="07-query-rewrite-variants.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 查询改写与变体生成
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="08-milvus-hybrid-search.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 Milvus 混合检索
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="09-qaservice-orchestration.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 QAService 核心编排
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="10-rag-pipeline.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 RAG Pipeline 主流程与 Prompt 生成
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第三阶段：Web 服务基础设施
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第三阶段：Web 服务基础设施
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="11-fastapi-async.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 FastAPI 与异步 Web 框架
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12-app-entry-preflight.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 应用入口与环境前置校验
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第四阶段：治理与生产化
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第四阶段：治理与生产化
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="13-knowledge-governance.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 知识库治理与离线入库发布
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="14-rag-quality.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 RAG 质量评测与 Bad Case 闭环
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="15-testing-system.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 自动化测试与接口验收
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="16-observability-capacity.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16 线上可观测性、Trace 与容量治理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="17-docker-delivery.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17 Docker 交付与排障
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    技术附录
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    技术附录
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix/appendix-a-pydantic.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Pydantic 数据校验与 Settings 管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix/appendix-b-sha256-fingerprint.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B SHA256 文件指纹
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix/appendix-c-hnsw-index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C HNSW 索引参数调优
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix/appendix-d-crossencoder-reranker.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D CrossEncoder Reranker 原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix/appendix-e-recursive-splitter.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E RecursiveCharacterTextSplitter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix/appendix-f-embedding-models.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    F Embedding 模型选型
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix/appendix-g-chunking-strategy.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    G 文档切分策略 Parent-Child Chunking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="appendix/appendix-h-tool-foundations.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    H 项目工具类开发详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、从零生成完整项目，不能只写一条提示词
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、完整项目的总控提示词
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、第一阶段：固化项目设计
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、第二阶段：创建项目骨架
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、第三阶段：接入基础设施
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、第四阶段：实现离线入库
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reranker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、第五阶段：实现检索和 Reranker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        八、第六阶段：实现意图和路由
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        九、第七阶段：实现完整在线问答链路
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十、第八阶段：补齐治理、评测和观测
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十一、第九阶段：最终验收和交付
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十二、这类提示词最重要的五个设计原则
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="十二、这类提示词最重要的五个设计原则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 先写“业务行为”，再写“技术组件”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 每一轮必须限制修改范围
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-codex-codex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 先让 Codex 设计，再让 Codex 写代码
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 每阶段都要形成证据
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. “完整项目”必须包含可交付物
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最后怎么讲给学生
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>04.5 vibe coding rag practice greenfield</h1>
+
+<p>你截图中的提示词没有错，但它适合的是：</p>
+<blockquote>
+<p><strong>在已有项目基础上，让 Codex 阅读、修改和完善 Mini RAG。</strong></p>
+</blockquote>
+<p>它依赖当前目录已经存在的代码、目录结构和实现方式，所以不适合“从空目录生成完整项目”。</p>
+<p>如果让开发人员从 0 到 1 使用 Codex 完成一个完整 RAG 项目，提示词需要从“修改任务”升级为“项目合同”。核心变化是：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span>
+<span class="normal"><a href="#__codelineno-0-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>先定义项目目标和边界
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>→ 让 Codex 设计架构
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>→ 固化项目契约
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>→ 创建项目骨架
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a>→ 分阶段开发
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a>→ 每阶段测试和提交
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a>→ 最后进行端到端验收
+</code></pre></div></td></tr></table></div>
+<h2 id="_1">一、从零生成完整项目，不能只写一条提示词<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>不建议直接发送：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>请帮我从零生成一个完整企业级 RAG 项目。
+</code></pre></div></td></tr></table></div>
+<p>因为“完整项目”对 Codex 来说可能意味着：</p>
+<ul>
+<li>只生成几个 Python 文件；</li>
+<li>使用假的向量检索；</li>
+<li>用内存数据代替数据库；</li>
+<li>不处理 Docker；</li>
+<li>不处理模型加载；</li>
+<li>没有测试；</li>
+<li>没有版本管理；</li>
+<li>接口可以启动，但业务流程不能运行。</li>
+</ul>
+<p>因此，应该使用：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a>一份总控提示词
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a>+
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a>多轮分阶段提示词
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a>+
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a>每阶段验收标准
+</code></pre></div></td></tr></table></div>
+<p>总控提示词负责约束项目方向，分阶段提示词负责推动代码实现。</p>
+<h2 id="_2">二、完整项目的总控提示词<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>开发人员可以在一个全新的目录中打开 Codex，例如：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="n">mkdir</span> <span class="n">D</span><span class="p">:\</span><span class="n">workspace</span><span class="p">\</span><span class="n">knowforge-rag-greenfield</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="nb">cd </span><span class="n">D</span><span class="p">:\</span><span class="n">workspace</span><span class="p">\</span><span class="n">knowforge-rag-greenfield</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="n">git</span> <span class="n">init</span>
+</code></pre></div></td></tr></table></div>
+<p>然后在 Codex 中发送下面的总控提示词：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">  1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">  2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">  3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">  4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">  5</a></span>
+<span class="normal"><a href="#__codelineno-4-6">  6</a></span>
+<span class="normal"><a href="#__codelineno-4-7">  7</a></span>
+<span class="normal"><a href="#__codelineno-4-8">  8</a></span>
+<span class="normal"><a href="#__codelineno-4-9">  9</a></span>
+<span class="normal"><a href="#__codelineno-4-10"> 10</a></span>
+<span class="normal"><a href="#__codelineno-4-11"> 11</a></span>
+<span class="normal"><a href="#__codelineno-4-12"> 12</a></span>
+<span class="normal"><a href="#__codelineno-4-13"> 13</a></span>
+<span class="normal"><a href="#__codelineno-4-14"> 14</a></span>
+<span class="normal"><a href="#__codelineno-4-15"> 15</a></span>
+<span class="normal"><a href="#__codelineno-4-16"> 16</a></span>
+<span class="normal"><a href="#__codelineno-4-17"> 17</a></span>
+<span class="normal"><a href="#__codelineno-4-18"> 18</a></span>
+<span class="normal"><a href="#__codelineno-4-19"> 19</a></span>
+<span class="normal"><a href="#__codelineno-4-20"> 20</a></span>
+<span class="normal"><a href="#__codelineno-4-21"> 21</a></span>
+<span class="normal"><a href="#__codelineno-4-22"> 22</a></span>
+<span class="normal"><a href="#__codelineno-4-23"> 23</a></span>
+<span class="normal"><a href="#__codelineno-4-24"> 24</a></span>
+<span class="normal"><a href="#__codelineno-4-25"> 25</a></span>
+<span class="normal"><a href="#__codelineno-4-26"> 26</a></span>
+<span class="normal"><a href="#__codelineno-4-27"> 27</a></span>
+<span class="normal"><a href="#__codelineno-4-28"> 28</a></span>
+<span class="normal"><a href="#__codelineno-4-29"> 29</a></span>
+<span class="normal"><a href="#__codelineno-4-30"> 30</a></span>
+<span class="normal"><a href="#__codelineno-4-31"> 31</a></span>
+<span class="normal"><a href="#__codelineno-4-32"> 32</a></span>
+<span class="normal"><a href="#__codelineno-4-33"> 33</a></span>
+<span class="normal"><a href="#__codelineno-4-34"> 34</a></span>
+<span class="normal"><a href="#__codelineno-4-35"> 35</a></span>
+<span class="normal"><a href="#__codelineno-4-36"> 36</a></span>
+<span class="normal"><a href="#__codelineno-4-37"> 37</a></span>
+<span class="normal"><a href="#__codelineno-4-38"> 38</a></span>
+<span class="normal"><a href="#__codelineno-4-39"> 39</a></span>
+<span class="normal"><a href="#__codelineno-4-40"> 40</a></span>
+<span class="normal"><a href="#__codelineno-4-41"> 41</a></span>
+<span class="normal"><a href="#__codelineno-4-42"> 42</a></span>
+<span class="normal"><a href="#__codelineno-4-43"> 43</a></span>
+<span class="normal"><a href="#__codelineno-4-44"> 44</a></span>
+<span class="normal"><a href="#__codelineno-4-45"> 45</a></span>
+<span class="normal"><a href="#__codelineno-4-46"> 46</a></span>
+<span class="normal"><a href="#__codelineno-4-47"> 47</a></span>
+<span class="normal"><a href="#__codelineno-4-48"> 48</a></span>
+<span class="normal"><a href="#__codelineno-4-49"> 49</a></span>
+<span class="normal"><a href="#__codelineno-4-50"> 50</a></span>
+<span class="normal"><a href="#__codelineno-4-51"> 51</a></span>
+<span class="normal"><a href="#__codelineno-4-52"> 52</a></span>
+<span class="normal"><a href="#__codelineno-4-53"> 53</a></span>
+<span class="normal"><a href="#__codelineno-4-54"> 54</a></span>
+<span class="normal"><a href="#__codelineno-4-55"> 55</a></span>
+<span class="normal"><a href="#__codelineno-4-56"> 56</a></span>
+<span class="normal"><a href="#__codelineno-4-57"> 57</a></span>
+<span class="normal"><a href="#__codelineno-4-58"> 58</a></span>
+<span class="normal"><a href="#__codelineno-4-59"> 59</a></span>
+<span class="normal"><a href="#__codelineno-4-60"> 60</a></span>
+<span class="normal"><a href="#__codelineno-4-61"> 61</a></span>
+<span class="normal"><a href="#__codelineno-4-62"> 62</a></span>
+<span class="normal"><a href="#__codelineno-4-63"> 63</a></span>
+<span class="normal"><a href="#__codelineno-4-64"> 64</a></span>
+<span class="normal"><a href="#__codelineno-4-65"> 65</a></span>
+<span class="normal"><a href="#__codelineno-4-66"> 66</a></span>
+<span class="normal"><a href="#__codelineno-4-67"> 67</a></span>
+<span class="normal"><a href="#__codelineno-4-68"> 68</a></span>
+<span class="normal"><a href="#__codelineno-4-69"> 69</a></span>
+<span class="normal"><a href="#__codelineno-4-70"> 70</a></span>
+<span class="normal"><a href="#__codelineno-4-71"> 71</a></span>
+<span class="normal"><a href="#__codelineno-4-72"> 72</a></span>
+<span class="normal"><a href="#__codelineno-4-73"> 73</a></span>
+<span class="normal"><a href="#__codelineno-4-74"> 74</a></span>
+<span class="normal"><a href="#__codelineno-4-75"> 75</a></span>
+<span class="normal"><a href="#__codelineno-4-76"> 76</a></span>
+<span class="normal"><a href="#__codelineno-4-77"> 77</a></span>
+<span class="normal"><a href="#__codelineno-4-78"> 78</a></span>
+<span class="normal"><a href="#__codelineno-4-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-4-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-4-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-4-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-4-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-4-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-4-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-4-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-4-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-4-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-4-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-4-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-4-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-4-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-4-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-4-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-4-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-4-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-4-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-4-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-4-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-4-100">100</a></span>
+<span class="normal"><a href="#__codelineno-4-101">101</a></span>
+<span class="normal"><a href="#__codelineno-4-102">102</a></span>
+<span class="normal"><a href="#__codelineno-4-103">103</a></span>
+<span class="normal"><a href="#__codelineno-4-104">104</a></span>
+<span class="normal"><a href="#__codelineno-4-105">105</a></span>
+<span class="normal"><a href="#__codelineno-4-106">106</a></span>
+<span class="normal"><a href="#__codelineno-4-107">107</a></span>
+<span class="normal"><a href="#__codelineno-4-108">108</a></span>
+<span class="normal"><a href="#__codelineno-4-109">109</a></span>
+<span class="normal"><a href="#__codelineno-4-110">110</a></span>
+<span class="normal"><a href="#__codelineno-4-111">111</a></span>
+<span class="normal"><a href="#__codelineno-4-112">112</a></span>
+<span class="normal"><a href="#__codelineno-4-113">113</a></span>
+<span class="normal"><a href="#__codelineno-4-114">114</a></span>
+<span class="normal"><a href="#__codelineno-4-115">115</a></span>
+<span class="normal"><a href="#__codelineno-4-116">116</a></span>
+<span class="normal"><a href="#__codelineno-4-117">117</a></span>
+<span class="normal"><a href="#__codelineno-4-118">118</a></span>
+<span class="normal"><a href="#__codelineno-4-119">119</a></span>
+<span class="normal"><a href="#__codelineno-4-120">120</a></span>
+<span class="normal"><a href="#__codelineno-4-121">121</a></span>
+<span class="normal"><a href="#__codelineno-4-122">122</a></span>
+<span class="normal"><a href="#__codelineno-4-123">123</a></span>
+<span class="normal"><a href="#__codelineno-4-124">124</a></span>
+<span class="normal"><a href="#__codelineno-4-125">125</a></span>
+<span class="normal"><a href="#__codelineno-4-126">126</a></span>
+<span class="normal"><a href="#__codelineno-4-127">127</a></span>
+<span class="normal"><a href="#__codelineno-4-128">128</a></span>
+<span class="normal"><a href="#__codelineno-4-129">129</a></span>
+<span class="normal"><a href="#__codelineno-4-130">130</a></span>
+<span class="normal"><a href="#__codelineno-4-131">131</a></span>
+<span class="normal"><a href="#__codelineno-4-132">132</a></span>
+<span class="normal"><a href="#__codelineno-4-133">133</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a>当前工作区是：
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a>D:\workspace\knowforge-rag-greenfield
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a>这是一个从零开始的新项目，当前目录中没有可复用的业务代码。
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a>不要假设存在任何已有模块，也不要从其他项目复制代码。
+<a id="__codelineno-4-7" name="__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8"></a>我要从零实现一个可以 Docker 部署的企业级 RAG 知识问答系统。
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a>
+<a id="__codelineno-4-10" name="__codelineno-4-10"></a>一、业务目标
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12"></a>用户输入一个业务问题，系统能够：
+<a id="__codelineno-4-13" name="__codelineno-4-13"></a>
+<a id="__codelineno-4-14" name="__codelineno-4-14"></a>1. 判断问题属于哪一类业务；
+<a id="__codelineno-4-15" name="__codelineno-4-15"></a>2. 判断问题是否需要检索；
+<a id="__codelineno-4-16" name="__codelineno-4-16"></a>3. 对需要检索的问题执行 FAQ 和业务文档检索；
+<a id="__codelineno-4-17" name="__codelineno-4-17"></a>4. 使用 Dense + Sparse 混合检索；
+<a id="__codelineno-4-18" name="__codelineno-4-18"></a>5. 使用 Reranker 对候选结果进行精排；
+<a id="__codelineno-4-19" name="__codelineno-4-19"></a>6. 使用 LLM 根据检索证据生成答案；
+<a id="__codelineno-4-20" name="__codelineno-4-20"></a>7. 返回答案、来源、检索信息和阶段耗时；
+<a id="__codelineno-4-21" name="__codelineno-4-21"></a>8. 对问候、越界问题和高置信 FAQ 进行快速处理；
+<a id="__codelineno-4-22" name="__codelineno-4-22"></a>9. 支持知识库版本、数据隔离、质量检查和回归评测；
+<a id="__codelineno-4-23" name="__codelineno-4-23"></a>10. 支持 Docker Compose 部署。
+<a id="__codelineno-4-24" name="__codelineno-4-24"></a>
+<a id="__codelineno-4-25" name="__codelineno-4-25"></a>二、技术约束
+<a id="__codelineno-4-26" name="__codelineno-4-26"></a>
+<a id="__codelineno-4-27" name="__codelineno-4-27"></a>1. Python 3.12；
+<a id="__codelineno-4-28" name="__codelineno-4-28"></a>2. FastAPI 作为 Web 框架；
+<a id="__codelineno-4-29" name="__codelineno-4-29"></a>3. Milvus 2.5+ 作为向量数据库；
+<a id="__codelineno-4-30" name="__codelineno-4-30"></a>4. Dense 向量使用本地 BGE-M3；
+<a id="__codelineno-4-31" name="__codelineno-4-31"></a>5. Dense 索引使用 HNSW；
+<a id="__codelineno-4-32" name="__codelineno-4-32"></a>6. Sparse 使用 Milvus 服务端 BM25；
+<a id="__codelineno-4-33" name="__codelineno-4-33"></a>7. Sparse 字段使用 AUTOINDEX + BM25；
+<a id="__codelineno-4-34" name="__codelineno-4-34"></a>8. 使用 Weighted Hybrid Search 融合 Dense 和 Sparse；
+<a id="__codelineno-4-35" name="__codelineno-4-35"></a>9. 使用本地 BGE Reranker CrossEncoder 精排；
+<a id="__codelineno-4-36" name="__codelineno-4-36"></a>10. MySQL 保存会话、反馈、知识库版本和评测记录；
+<a id="__codelineno-4-37" name="__codelineno-4-37"></a>11. Redis 只用于 query embedding 和检索候选缓存；
+<a id="__codelineno-4-38" name="__codelineno-4-38"></a>12. 不缓存最终 LLM 答案；
+<a id="__codelineno-4-39" name="__codelineno-4-39"></a>13. 不使用 Agent；
+<a id="__codelineno-4-40" name="__codelineno-4-40"></a>14. 不引入 GraphRAG；
+<a id="__codelineno-4-41" name="__codelineno-4-41"></a>15. 使用 WebSocket 支持流式回答；
+<a id="__codelineno-4-42" name="__codelineno-4-42"></a>16. 使用 Docker Compose 启动 API、MySQL、Redis、etcd、MinIO 和 Milvus；
+<a id="__codelineno-4-43" name="__codelineno-4-43"></a>17. 本地模型通过 volume 挂载，不在镜像构建阶段下载；
+<a id="__codelineno-4-44" name="__codelineno-4-44"></a>18. API Key 只能从环境变量读取。
+<a id="__codelineno-4-45" name="__codelineno-4-45"></a>
+<a id="__codelineno-4-46" name="__codelineno-4-46"></a>三、在线路由
+<a id="__codelineno-4-47" name="__codelineno-4-47"></a>
+<a id="__codelineno-4-48" name="__codelineno-4-48"></a>在线请求只能进入以下三种路由之一：
+<a id="__codelineno-4-49" name="__codelineno-4-49"></a>
+<a id="__codelineno-4-50" name="__codelineno-4-50"></a>1. direct_answer
+<a id="__codelineno-4-51" name="__codelineno-4-51"></a>   用于问候、越界转人工和其他无需检索的确定性回答。
+<a id="__codelineno-4-52" name="__codelineno-4-52"></a>
+<a id="__codelineno-4-53" name="__codelineno-4-53"></a>2. faq_exact
+<a id="__codelineno-4-54" name="__codelineno-4-54"></a>   用于高置信 FAQ 命中，直接返回 FAQ 答案和来源。
+<a id="__codelineno-4-55" name="__codelineno-4-55"></a>
+<a id="__codelineno-4-56" name="__codelineno-4-56"></a>3. retrieval
+<a id="__codelineno-4-57" name="__codelineno-4-57"></a>   用于普通知识问题，进入完整的检索、精排、上下文构建和 LLM 生成流程。
+<a id="__codelineno-4-58" name="__codelineno-4-58"></a>
+<a id="__codelineno-4-59" name="__codelineno-4-59"></a>四、意图识别要求
+<a id="__codelineno-4-60" name="__codelineno-4-60"></a>
+<a id="__codelineno-4-61" name="__codelineno-4-61"></a>意图识别使用以下顺序：
+<a id="__codelineno-4-62" name="__codelineno-4-62"></a>
+<a id="__codelineno-4-63" name="__codelineno-4-63"></a>1. 读取对话历史；
+<a id="__codelineno-4-64" name="__codelineno-4-64"></a>2. 生成规则候选；
+<a id="__codelineno-4-65" name="__codelineno-4-65"></a>3. 对规则无法确定的问题使用意图模型校验；
+<a id="__codelineno-4-66" name="__codelineno-4-66"></a>4. 通过统一网关决定最终意图；
+<a id="__codelineno-4-67" name="__codelineno-4-67"></a>5. 根据最终意图选择 direct_answer、faq_exact 或 retrieval；
+<a id="__codelineno-4-68" name="__codelineno-4-68"></a>6. 记录 intent、source、score、reason 和 requires_rewrite。
+<a id="__codelineno-4-69" name="__codelineno-4-69"></a>
+<a id="__codelineno-4-70" name="__codelineno-4-70"></a>五、知识库要求
+<a id="__codelineno-4-71" name="__codelineno-4-71"></a>
+<a id="__codelineno-4-72" name="__codelineno-4-72"></a>支持以下知识库能力：
+<a id="__codelineno-4-73" name="__codelineno-4-73"></a>
+<a id="__codelineno-4-74" name="__codelineno-4-74"></a>1. FAQ CSV 导入；
+<a id="__codelineno-4-75" name="__codelineno-4-75"></a>2. Markdown、TXT、PDF、DOCX、PPTX、CSV、XLSX 文档导入；
+<a id="__codelineno-4-76" name="__codelineno-4-76"></a>3. 文档切分；
+<a id="__codelineno-4-77" name="__codelineno-4-77"></a>4. FAQ 和文档分别写入 Milvus Collection；
+<a id="__codelineno-4-78" name="__codelineno-4-78"></a>5. 每条数据包含 source、tenant_id、dataset_id、visibility、allowed_roles 和 kb_version；
+<a id="__codelineno-4-79" name="__codelineno-4-79"></a>6. 知识库版本状态包括 STAGED、ACTIVE 和 ARCHIVED；
+<a id="__codelineno-4-80" name="__codelineno-4-80"></a>7. 只有通过质量门禁的版本才能激活；
+<a id="__codelineno-4-81" name="__codelineno-4-81"></a>8. 支持重新入库和失败回滚；
+<a id="__codelineno-4-82" name="__codelineno-4-82"></a>9. 支持文档来源和版本查询。
+<a id="__codelineno-4-83" name="__codelineno-4-83"></a>
+<a id="__codelineno-4-84" name="__codelineno-4-84"></a>六、交付物要求
+<a id="__codelineno-4-85" name="__codelineno-4-85"></a>
+<a id="__codelineno-4-86" name="__codelineno-4-86"></a>最终项目必须包含：
+<a id="__codelineno-4-87" name="__codelineno-4-87"></a>
+<a id="__codelineno-4-88" name="__codelineno-4-88"></a>1. 应用代码；
+<a id="__codelineno-4-89" name="__codelineno-4-89"></a>2. Dockerfile；
+<a id="__codelineno-4-90" name="__codelineno-4-90"></a>3. docker-compose.yml；
+<a id="__codelineno-4-91" name="__codelineno-4-91"></a>4. requirements.txt；
+<a id="__codelineno-4-92" name="__codelineno-4-92"></a>5. .env.example；
+<a id="__codelineno-4-93" name="__codelineno-4-93"></a>6. 数据库初始化脚本；
+<a id="__codelineno-4-94" name="__codelineno-4-94"></a>7. Milvus Collection 初始化和入库脚本；
+<a id="__codelineno-4-95" name="__codelineno-4-95"></a>8. FAQ 和文档样例数据；
+<a id="__codelineno-4-96" name="__codelineno-4-96"></a>9. API 接口；
+<a id="__codelineno-4-97" name="__codelineno-4-97"></a>10. WebSocket 流式接口；
+<a id="__codelineno-4-98" name="__codelineno-4-98"></a>11. 单元测试；
+<a id="__codelineno-4-99" name="__codelineno-4-99"></a>12. 接口测试；
+<a id="__codelineno-4-100" name="__codelineno-4-100"></a>13. Smoke Test；
+<a id="__codelineno-4-101" name="__codelineno-4-101"></a>14. README；
+<a id="__codelineno-4-102" name="__codelineno-4-102"></a>15. 故障排查说明；
+<a id="__codelineno-4-103" name="__codelineno-4-103"></a>16. 项目架构说明；
+<a id="__codelineno-4-104" name="__codelineno-4-104"></a>17. 在线问答流程图；
+<a id="__codelineno-4-105" name="__codelineno-4-105"></a>18. 离线入库流程图；
+<a id="__codelineno-4-106" name="__codelineno-4-106"></a>19. 版本发布和回滚说明。
+<a id="__codelineno-4-107" name="__codelineno-4-107"></a>
+<a id="__codelineno-4-108" name="__codelineno-4-108"></a>七、工作规则
+<a id="__codelineno-4-109" name="__codelineno-4-109"></a>
+<a id="__codelineno-4-110" name="__codelineno-4-110"></a>1. 第一轮只分析和规划，不修改文件；
+<a id="__codelineno-4-111" name="__codelineno-4-111"></a>2. 后续每一轮只完成一个阶段；
+<a id="__codelineno-4-112" name="__codelineno-4-112"></a>3. 每次修改前先查看当前目录和 git diff；
+<a id="__codelineno-4-113" name="__codelineno-4-113"></a>4. 不要一次性重写整个项目；
+<a id="__codelineno-4-114" name="__codelineno-4-114"></a>5. 不要修改与当前阶段无关的文件；
+<a id="__codelineno-4-115" name="__codelineno-4-115"></a>6. 每个阶段必须有测试或可执行验收命令；
+<a id="__codelineno-4-116" name="__codelineno-4-116"></a>7. 每轮完成后报告修改文件、命令、结果和未完成内容；
+<a id="__codelineno-4-117" name="__codelineno-4-117"></a>8. 测试失败时先分析根因，再进行最小修改；
+<a id="__codelineno-4-118" name="__codelineno-4-118"></a>9. 不要用 mock 逻辑冒充真实 Milvus、Redis、MySQL 或模型能力；
+<a id="__codelineno-4-119" name="__codelineno-4-119"></a>10. 如果真实服务无法运行，必须明确区分“纯逻辑测试”和“真实集成测试”。
+<a id="__codelineno-4-120" name="__codelineno-4-120"></a>
+<a id="__codelineno-4-121" name="__codelineno-4-121"></a>本轮只输出：
+<a id="__codelineno-4-122" name="__codelineno-4-122"></a>
+<a id="__codelineno-4-123" name="__codelineno-4-123"></a>1. 项目总体架构；
+<a id="__codelineno-4-124" name="__codelineno-4-124"></a>2. 模块划分；
+<a id="__codelineno-4-125" name="__codelineno-4-125"></a>3. 数据库表设计；
+<a id="__codelineno-4-126" name="__codelineno-4-126"></a>4. Milvus Collection 设计；
+<a id="__codelineno-4-127" name="__codelineno-4-127"></a>5. 在线问答调用链；
+<a id="__codelineno-4-128" name="__codelineno-4-128"></a>6. 离线入库调用链；
+<a id="__codelineno-4-129" name="__codelineno-4-129"></a>7. 分阶段实施计划；
+<a id="__codelineno-4-130" name="__codelineno-4-130"></a>8. 每阶段验收标准；
+<a id="__codelineno-4-131" name="__codelineno-4-131"></a>9. 风险清单。
+<a id="__codelineno-4-132" name="__codelineno-4-132"></a>
+<a id="__codelineno-4-133" name="__codelineno-4-133"></a>暂时不要创建或修改任何文件。
+</code></pre></div></td></tr></table></div>
+<p>这条提示词的作用不是让 Codex 立刻写代码，而是先让它形成一份项目设计稿。</p>
+<h2 id="_3">三、第一阶段：固化项目设计<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>Codex 输出方案后，继续发送：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span>
+<span class="normal"><a href="#__codelineno-5-18">18</a></span>
+<span class="normal"><a href="#__codelineno-5-19">19</a></span>
+<span class="normal"><a href="#__codelineno-5-20">20</a></span>
+<span class="normal"><a href="#__codelineno-5-21">21</a></span>
+<span class="normal"><a href="#__codelineno-5-22">22</a></span>
+<span class="normal"><a href="#__codelineno-5-23">23</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a>请根据刚才的方案，生成以下设计文件：
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a>1. PROJECT_SPEC.md
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a>2. ARCHITECTURE.md
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a>3. API_CONTRACT.md
+<a id="__codelineno-5-6" name="__codelineno-5-6"></a>4. DATA_MODEL.md
+<a id="__codelineno-5-7" name="__codelineno-5-7"></a>5. IMPLEMENTATION_PLAN.md
+<a id="__codelineno-5-8" name="__codelineno-5-8"></a>6. ACCEPTANCE_CHECKLIST.md
+<a id="__codelineno-5-9" name="__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10"></a>要求：
+<a id="__codelineno-5-11" name="__codelineno-5-11"></a>
+<a id="__codelineno-5-12" name="__codelineno-5-12"></a>- 明确三种在线 route；
+<a id="__codelineno-5-13" name="__codelineno-5-13"></a>- 明确 FAQ、Document 两类 Collection；
+<a id="__codelineno-5-14" name="__codelineno-5-14"></a>- 明确 text、dense、sparse 字段；
+<a id="__codelineno-5-15" name="__codelineno-5-15"></a>- 明确 HNSW、BM25 和 Reranker 的位置；
+<a id="__codelineno-5-16" name="__codelineno-5-16"></a>- 明确 MySQL、Redis、Milvus 的职责；
+<a id="__codelineno-5-17" name="__codelineno-5-17"></a>- 明确知识库版本状态和激活条件；
+<a id="__codelineno-5-18" name="__codelineno-5-18"></a>- 明确每个 API 的输入、输出和错误响应；
+<a id="__codelineno-5-19" name="__codelineno-5-19"></a>- 明确每个阶段将修改哪些文件；
+<a id="__codelineno-5-20" name="__codelineno-5-20"></a>- 不创建业务代码；
+<a id="__codelineno-5-21" name="__codelineno-5-21"></a>- 不生成无法验证的架构描述。
+<a id="__codelineno-5-22" name="__codelineno-5-22"></a>
+<a id="__codelineno-5-23" name="__codelineno-5-23"></a>完成后停止，等待下一条指令。
+</code></pre></div></td></tr></table></div>
+<p>讲课时要告诉学生：</p>
+<blockquote>
+<p>“从零项目最容易失败的地方，是 Codex 一开始就写代码，结果写到一半才发现数据结构、接口和模块边界没有确定。所以先让它把项目契约写出来。”</p>
+</blockquote>
+<h2 id="_4">四、第二阶段：创建项目骨架<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span>
+<span class="normal"><a href="#__codelineno-6-13">13</a></span>
+<span class="normal"><a href="#__codelineno-6-14">14</a></span>
+<span class="normal"><a href="#__codelineno-6-15">15</a></span>
+<span class="normal"><a href="#__codelineno-6-16">16</a></span>
+<span class="normal"><a href="#__codelineno-6-17">17</a></span>
+<span class="normal"><a href="#__codelineno-6-18">18</a></span>
+<span class="normal"><a href="#__codelineno-6-19">19</a></span>
+<span class="normal"><a href="#__codelineno-6-20">20</a></span>
+<span class="normal"><a href="#__codelineno-6-21">21</a></span>
+<span class="normal"><a href="#__codelineno-6-22">22</a></span>
+<span class="normal"><a href="#__codelineno-6-23">23</a></span>
+<span class="normal"><a href="#__codelineno-6-24">24</a></span>
+<span class="normal"><a href="#__codelineno-6-25">25</a></span>
+<span class="normal"><a href="#__codelineno-6-26">26</a></span>
+<span class="normal"><a href="#__codelineno-6-27">27</a></span>
+<span class="normal"><a href="#__codelineno-6-28">28</a></span>
+<span class="normal"><a href="#__codelineno-6-29">29</a></span>
+<span class="normal"><a href="#__codelineno-6-30">30</a></span>
+<span class="normal"><a href="#__codelineno-6-31">31</a></span>
+<span class="normal"><a href="#__codelineno-6-32">32</a></span>
+<span class="normal"><a href="#__codelineno-6-33">33</a></span>
+<span class="normal"><a href="#__codelineno-6-34">34</a></span>
+<span class="normal"><a href="#__codelineno-6-35">35</a></span>
+<span class="normal"><a href="#__codelineno-6-36">36</a></span>
+<span class="normal"><a href="#__codelineno-6-37">37</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a>请只实现项目骨架，不实现具体业务逻辑。
+<a id="__codelineno-6-2" name="__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3"></a>根据 PROJECT_SPEC.md 创建：
+<a id="__codelineno-6-4" name="__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5"></a>1. app.py；
+<a id="__codelineno-6-6" name="__codelineno-6-6"></a>2. qa_core/config；
+<a id="__codelineno-6-7" name="__codelineno-6-7"></a>3. qa_core/schemas；
+<a id="__codelineno-6-8" name="__codelineno-6-8"></a>4. qa_core/api；
+<a id="__codelineno-6-9" name="__codelineno-6-9"></a>5. qa_core/application；
+<a id="__codelineno-6-10" name="__codelineno-6-10"></a>6. qa_core/pipeline；
+<a id="__codelineno-6-11" name="__codelineno-6-11"></a>7. qa_core/intent；
+<a id="__codelineno-6-12" name="__codelineno-6-12"></a>8. qa_core/retrieval；
+<a id="__codelineno-6-13" name="__codelineno-6-13"></a>9. qa_core/indexing；
+<a id="__codelineno-6-14" name="__codelineno-6-14"></a>10. qa_core/storage；
+<a id="__codelineno-6-15" name="__codelineno-6-15"></a>11. qa_core/memory；
+<a id="__codelineno-6-16" name="__codelineno-6-16"></a>12. qa_core/quality；
+<a id="__codelineno-6-17" name="__codelineno-6-17"></a>13. scripts；
+<a id="__codelineno-6-18" name="__codelineno-6-18"></a>14. tests；
+<a id="__codelineno-6-19" name="__codelineno-6-19"></a>15. static；
+<a id="__codelineno-6-20" name="__codelineno-6-20"></a>16. scenarios。
+<a id="__codelineno-6-21" name="__codelineno-6-21"></a>
+<a id="__codelineno-6-22" name="__codelineno-6-22"></a>要求：
+<a id="__codelineno-6-23" name="__codelineno-6-23"></a>
+<a id="__codelineno-6-24" name="__codelineno-6-24"></a>- 所有包包含必要的 __init__.py；
+<a id="__codelineno-6-25" name="__codelineno-6-25"></a>- 配置统一从 .env 读取；
+<a id="__codelineno-6-26" name="__codelineno-6-26"></a>- 创建 GET /health；
+<a id="__codelineno-6-27" name="__codelineno-6-27"></a>- 暂时不连接真实数据库；
+<a id="__codelineno-6-28" name="__codelineno-6-28"></a>- 暂时不加载模型；
+<a id="__codelineno-6-29" name="__codelineno-6-29"></a>- 为配置和健康检查编写纯逻辑测试；
+<a id="__codelineno-6-30" name="__codelineno-6-30"></a>- 更新 README 的本地运行命令；
+<a id="__codelineno-6-31" name="__codelineno-6-31"></a>- 不实现检索和 LLM。
+<a id="__codelineno-6-32" name="__codelineno-6-32"></a>
+<a id="__codelineno-6-33" name="__codelineno-6-33"></a>完成后执行：
+<a id="__codelineno-6-34" name="__codelineno-6-34"></a>
+<a id="__codelineno-6-35" name="__codelineno-6-35"></a>python -m pytest tests -q
+<a id="__codelineno-6-36" name="__codelineno-6-36"></a>
+<a id="__codelineno-6-37" name="__codelineno-6-37"></a>报告修改文件、测试结果和未完成内容。
+</code></pre></div></td></tr></table></div>
+<p>验收：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="n">git</span> <span class="nb">diff</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">pytest</span> <span class="n">tests</span> <span class="n">-q</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="n">git</span> <span class="n">add</span> <span class="p">.</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;创建项目骨架和配置&quot;</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="_5">五、第三阶段：接入基础设施<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span>
+<span class="normal"><a href="#__codelineno-8-22">22</a></span>
+<span class="normal"><a href="#__codelineno-8-23">23</a></span>
+<span class="normal"><a href="#__codelineno-8-24">24</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a>请只实现 Docker Compose 和基础设施连接。
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a>要求：
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5"></a>1. 启动 MySQL；
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a>2. 启动 Redis；
+<a id="__codelineno-8-7" name="__codelineno-8-7"></a>3. 启动 etcd；
+<a id="__codelineno-8-8" name="__codelineno-8-8"></a>4. 启动 MinIO；
+<a id="__codelineno-8-9" name="__codelineno-8-9"></a>5. 启动 Milvus 2.5+；
+<a id="__codelineno-8-10" name="__codelineno-8-10"></a>6. 启动 API；
+<a id="__codelineno-8-11" name="__codelineno-8-11"></a>7. API 通过 Docker 服务名访问依赖；
+<a id="__codelineno-8-12" name="__codelineno-8-12"></a>8. 模型通过 volume 挂载；
+<a id="__codelineno-8-13" name="__codelineno-8-13"></a>9. API Key 使用环境变量；
+<a id="__codelineno-8-14" name="__codelineno-8-14"></a>10. 为 MySQL、Redis、Milvus 增加连接检查；
+<a id="__codelineno-8-15" name="__codelineno-8-15"></a>11. /health 返回各组件状态；
+<a id="__codelineno-8-16" name="__codelineno-8-16"></a>12. 不实现问答逻辑；
+<a id="__codelineno-8-17" name="__codelineno-8-17"></a>13. 不实现 LLM 调用。
+<a id="__codelineno-8-18" name="__codelineno-8-18"></a>
+<a id="__codelineno-8-19" name="__codelineno-8-19"></a>必须验证：
+<a id="__codelineno-8-20" name="__codelineno-8-20"></a>
+<a id="__codelineno-8-21" name="__codelineno-8-21"></a>docker compose config
+<a id="__codelineno-8-22" name="__codelineno-8-22"></a>docker compose up -d
+<a id="__codelineno-8-23" name="__codelineno-8-23"></a>docker compose ps
+<a id="__codelineno-8-24" name="__codelineno-8-24"></a>curl http://127.0.0.1:8010/health
+</code></pre></div></td></tr></table></div>
+<p>这里要强调：</p>
+<blockquote>
+<p>“<code>docker compose config</code> 只能验证配置文件格式正确，不能证明服务可用。必须继续检查容器状态和健康接口。”</p>
+</blockquote>
+<h2 id="_6">六、第四阶段：实现离线入库<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-9-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-9-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-9-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-9-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-9-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-9-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-9-10">10</a></span>
+<span class="normal"><a href="#__codelineno-9-11">11</a></span>
+<span class="normal"><a href="#__codelineno-9-12">12</a></span>
+<span class="normal"><a href="#__codelineno-9-13">13</a></span>
+<span class="normal"><a href="#__codelineno-9-14">14</a></span>
+<span class="normal"><a href="#__codelineno-9-15">15</a></span>
+<span class="normal"><a href="#__codelineno-9-16">16</a></span>
+<span class="normal"><a href="#__codelineno-9-17">17</a></span>
+<span class="normal"><a href="#__codelineno-9-18">18</a></span>
+<span class="normal"><a href="#__codelineno-9-19">19</a></span>
+<span class="normal"><a href="#__codelineno-9-20">20</a></span>
+<span class="normal"><a href="#__codelineno-9-21">21</a></span>
+<span class="normal"><a href="#__codelineno-9-22">22</a></span>
+<span class="normal"><a href="#__codelineno-9-23">23</a></span>
+<span class="normal"><a href="#__codelineno-9-24">24</a></span>
+<span class="normal"><a href="#__codelineno-9-25">25</a></span>
+<span class="normal"><a href="#__codelineno-9-26">26</a></span>
+<span class="normal"><a href="#__codelineno-9-27">27</a></span>
+<span class="normal"><a href="#__codelineno-9-28">28</a></span>
+<span class="normal"><a href="#__codelineno-9-29">29</a></span>
+<span class="normal"><a href="#__codelineno-9-30">30</a></span>
+<span class="normal"><a href="#__codelineno-9-31">31</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a>请只实现离线知识库构建流程。
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a>调用顺序必须是：
+<a id="__codelineno-9-4" name="__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5"></a>读取资料
+<a id="__codelineno-9-6" name="__codelineno-9-6"></a>→ 加载为 Document
+<a id="__codelineno-9-7" name="__codelineno-9-7"></a>→ FAQ 转换
+<a id="__codelineno-9-8" name="__codelineno-9-8"></a>→ 文档切分
+<a id="__codelineno-9-9" name="__codelineno-9-9"></a>→ 写入 metadata
+<a id="__codelineno-9-10" name="__codelineno-9-10"></a>→ 创建 Milvus Collection
+<a id="__codelineno-9-11" name="__codelineno-9-11"></a>→ BGE-M3 生成 Dense
+<a id="__codelineno-9-12" name="__codelineno-9-12"></a>→ Milvus BM25 生成 Sparse
+<a id="__codelineno-9-13" name="__codelineno-9-13"></a>→ 写入 FAQ / Document Collection
+<a id="__codelineno-9-14" name="__codelineno-9-14"></a>→ 创建 STAGED 知识库版本
+<a id="__codelineno-9-15" name="__codelineno-9-15"></a>→ 执行质量检查
+<a id="__codelineno-9-16" name="__codelineno-9-16"></a>→ 质量通过后激活版本
+<a id="__codelineno-9-17" name="__codelineno-9-17"></a>
+<a id="__codelineno-9-18" name="__codelineno-9-18"></a>要求：
+<a id="__codelineno-9-19" name="__codelineno-9-19"></a>
+<a id="__codelineno-9-20" name="__codelineno-9-20"></a>- FAQ 和文档分别入库；
+<a id="__codelineno-9-21" name="__codelineno-9-21"></a>- Collection 包含 text、dense、sparse；
+<a id="__codelineno-9-22" name="__codelineno-9-22"></a>- Dense 使用 HNSW；
+<a id="__codelineno-9-23" name="__codelineno-9-23"></a>- Sparse 使用 AUTOINDEX + BM25；
+<a id="__codelineno-9-24" name="__codelineno-9-24"></a>- 保留 source 和 kb_version；
+<a id="__codelineno-9-25" name="__codelineno-9-25"></a>- 记录 tenant、dataset、visibility 和 allowed_roles；
+<a id="__codelineno-9-26" name="__codelineno-9-26"></a>- 质量失败时禁止激活；
+<a id="__codelineno-9-27" name="__codelineno-9-27"></a>- 添加入库元数据测试；
+<a id="__codelineno-9-28" name="__codelineno-9-28"></a>- 添加索引参数测试；
+<a id="__codelineno-9-29" name="__codelineno-9-29"></a>- 添加版本状态测试。
+<a id="__codelineno-9-30" name="__codelineno-9-30"></a>
+<a id="__codelineno-9-31" name="__codelineno-9-31"></a>本轮不要实现在线问答。
+</code></pre></div></td></tr></table></div>
+<p>入库阶段验收：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">pytest</span> <span class="n">tests</span> <span class="n">-q</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="n">docker</span> <span class="n">compose</span> <span class="n">exec</span> <span class="n">api</span> <span class="n">python</span> <span class="n">scripts</span><span class="p">/</span><span class="n">rebuild_kb</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="reranker">七、第五阶段：实现检索和 Reranker<a class="headerlink" href="#reranker" title="Permanent link">&para;</a></h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span>
+<span class="normal"><a href="#__codelineno-11-11">11</a></span>
+<span class="normal"><a href="#__codelineno-11-12">12</a></span>
+<span class="normal"><a href="#__codelineno-11-13">13</a></span>
+<span class="normal"><a href="#__codelineno-11-14">14</a></span>
+<span class="normal"><a href="#__codelineno-11-15">15</a></span>
+<span class="normal"><a href="#__codelineno-11-16">16</a></span>
+<span class="normal"><a href="#__codelineno-11-17">17</a></span>
+<span class="normal"><a href="#__codelineno-11-18">18</a></span>
+<span class="normal"><a href="#__codelineno-11-19">19</a></span>
+<span class="normal"><a href="#__codelineno-11-20">20</a></span>
+<span class="normal"><a href="#__codelineno-11-21">21</a></span>
+<span class="normal"><a href="#__codelineno-11-22">22</a></span>
+<span class="normal"><a href="#__codelineno-11-23">23</a></span>
+<span class="normal"><a href="#__codelineno-11-24">24</a></span>
+<span class="normal"><a href="#__codelineno-11-25">25</a></span>
+<span class="normal"><a href="#__codelineno-11-26">26</a></span>
+<span class="normal"><a href="#__codelineno-11-27">27</a></span>
+<span class="normal"><a href="#__codelineno-11-28">28</a></span>
+<span class="normal"><a href="#__codelineno-11-29">29</a></span>
+<span class="normal"><a href="#__codelineno-11-30">30</a></span>
+<span class="normal"><a href="#__codelineno-11-31">31</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a>请只实现检索层，不实现意图识别和 LLM 生成。
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a>必须实现：
+<a id="__codelineno-11-4" name="__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a>1. Dense 检索；
+<a id="__codelineno-11-6" name="__codelineno-11-6"></a>2. BM25 Sparse 检索；
+<a id="__codelineno-11-7" name="__codelineno-11-7"></a>3. Weighted Hybrid Search；
+<a id="__codelineno-11-8" name="__codelineno-11-8"></a>4. 版本和权限过滤；
+<a id="__codelineno-11-9" name="__codelineno-11-9"></a>5. FAQ 与 Document 检索；
+<a id="__codelineno-11-10" name="__codelineno-11-10"></a>6. 多查询变体支持；
+<a id="__codelineno-11-11" name="__codelineno-11-11"></a>7. 结果去重；
+<a id="__codelineno-11-12" name="__codelineno-11-12"></a>8. BGE Reranker 精排；
+<a id="__codelineno-11-13" name="__codelineno-11-13"></a>9. 检索耗时统计；
+<a id="__codelineno-11-14" name="__codelineno-11-14"></a>10. 空候选保护。
+<a id="__codelineno-11-15" name="__codelineno-11-15"></a>
+<a id="__codelineno-11-16" name="__codelineno-11-16"></a>严格顺序：
+<a id="__codelineno-11-17" name="__codelineno-11-17"></a>
+<a id="__codelineno-11-18" name="__codelineno-11-18"></a>query
+<a id="__codelineno-11-19" name="__codelineno-11-19"></a>→ Dense + BM25 召回
+<a id="__codelineno-11-20" name="__codelineno-11-20"></a>→ Weighted Hybrid Search
+<a id="__codelineno-11-21" name="__codelineno-11-21"></a>→ 去重
+<a id="__codelineno-11-22" name="__codelineno-11-22"></a>→ CrossEncoder Reranker
+<a id="__codelineno-11-23" name="__codelineno-11-23"></a>→ top_n
+<a id="__codelineno-11-24" name="__codelineno-11-24"></a>
+<a id="__codelineno-11-25" name="__codelineno-11-25"></a>要求：
+<a id="__codelineno-11-26" name="__codelineno-11-26"></a>
+<a id="__codelineno-11-27" name="__codelineno-11-27"></a>- Reranker 不参与入库；
+<a id="__codelineno-11-28" name="__codelineno-11-28"></a>- Reranker 不替代 Milvus；
+<a id="__codelineno-11-29" name="__codelineno-11-29"></a>- 保留原始来源和各阶段分数；
+<a id="__codelineno-11-30" name="__codelineno-11-30"></a>- 不缓存最终答案；
+<a id="__codelineno-11-31" name="__codelineno-11-31"></a>- 为过滤、融合、去重和精排添加测试。
+</code></pre></div></td></tr></table></div>
+<p>此时让学生观察：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a>Dense 分数
+<a id="__codelineno-12-2" name="__codelineno-12-2"></a>BM25 分数
+<a id="__codelineno-12-3" name="__codelineno-12-3"></a>Hybrid 分数
+<a id="__codelineno-12-4" name="__codelineno-12-4"></a>Reranker 分数
+</code></pre></div></td></tr></table></div>
+<p>并说明这些分数不是同一套尺度，不能直接混在一起比较。</p>
+<h2 id="_7">八、第六阶段：实现意图和路由<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-13-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-13-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-13-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-13-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-13-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-13-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-13-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-13-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-13-10">10</a></span>
+<span class="normal"><a href="#__codelineno-13-11">11</a></span>
+<span class="normal"><a href="#__codelineno-13-12">12</a></span>
+<span class="normal"><a href="#__codelineno-13-13">13</a></span>
+<span class="normal"><a href="#__codelineno-13-14">14</a></span>
+<span class="normal"><a href="#__codelineno-13-15">15</a></span>
+<span class="normal"><a href="#__codelineno-13-16">16</a></span>
+<span class="normal"><a href="#__codelineno-13-17">17</a></span>
+<span class="normal"><a href="#__codelineno-13-18">18</a></span>
+<span class="normal"><a href="#__codelineno-13-19">19</a></span>
+<span class="normal"><a href="#__codelineno-13-20">20</a></span>
+<span class="normal"><a href="#__codelineno-13-21">21</a></span>
+<span class="normal"><a href="#__codelineno-13-22">22</a></span>
+<span class="normal"><a href="#__codelineno-13-23">23</a></span>
+<span class="normal"><a href="#__codelineno-13-24">24</a></span>
+<span class="normal"><a href="#__codelineno-13-25">25</a></span>
+<span class="normal"><a href="#__codelineno-13-26">26</a></span>
+<span class="normal"><a href="#__codelineno-13-27">27</a></span>
+<span class="normal"><a href="#__codelineno-13-28">28</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a>请只实现意图识别和三路路由，不连接 LLM。
+<a id="__codelineno-13-2" name="__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3"></a>路由必须只有：
+<a id="__codelineno-13-4" name="__codelineno-13-4"></a>
+<a id="__codelineno-13-5" name="__codelineno-13-5"></a>- direct_answer；
+<a id="__codelineno-13-6" name="__codelineno-13-6"></a>- faq_exact；
+<a id="__codelineno-13-7" name="__codelineno-13-7"></a>- retrieval。
+<a id="__codelineno-13-8" name="__codelineno-13-8"></a>
+<a id="__codelineno-13-9" name="__codelineno-13-9"></a>实现顺序：
+<a id="__codelineno-13-10" name="__codelineno-13-10"></a>
+<a id="__codelineno-13-11" name="__codelineno-13-11"></a>读取 history
+<a id="__codelineno-13-12" name="__codelineno-13-12"></a>→ 规则识别
+<a id="__codelineno-13-13" name="__codelineno-13-13"></a>→ 规则候选
+<a id="__codelineno-13-14" name="__codelineno-13-14"></a>→ 模型校验
+<a id="__codelineno-13-15" name="__codelineno-13-15"></a>→ 网关仲裁
+<a id="__codelineno-13-16" name="__codelineno-13-16"></a>→ 确定最终 route
+<a id="__codelineno-13-17" name="__codelineno-13-17"></a>→ 生成 RetrievalPlan
+<a id="__codelineno-13-18" name="__codelineno-13-18"></a>
+<a id="__codelineno-13-19" name="__codelineno-13-19"></a>要求：
+<a id="__codelineno-13-20" name="__codelineno-13-20"></a>
+<a id="__codelineno-13-21" name="__codelineno-13-21"></a>- 问候进入 direct_answer；
+<a id="__codelineno-13-22" name="__codelineno-13-22"></a>- 越界问题进入 direct_answer；
+<a id="__codelineno-13-23" name="__codelineno-13-23"></a>- 高置信 FAQ 进入 faq_exact；
+<a id="__codelineno-13-24" name="__codelineno-13-24"></a>- 普通知识问题进入 retrieval；
+<a id="__codelineno-13-25" name="__codelineno-13-25"></a>- 规则结果包含 intent、score、reason 和 source；
+<a id="__codelineno-13-26" name="__codelineno-13-26"></a>- 模型只作为规则无法确定时的补充；
+<a id="__codelineno-13-27" name="__codelineno-13-27"></a>- 添加 route 决策测试；
+<a id="__codelineno-13-28" name="__codelineno-13-28"></a>- 不在本轮实现完整问答。
+</code></pre></div></td></tr></table></div>
+<p>这一步非常关键，因为从零项目必须先固定“谁决定是否检索”，否则后面所有检索和生成逻辑都会互相调用。</p>
+<h2 id="_8">九、第七阶段：实现完整在线问答链路<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-14-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-14-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-14-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-14-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-14-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-14-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-14-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-14-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-14-10">10</a></span>
+<span class="normal"><a href="#__codelineno-14-11">11</a></span>
+<span class="normal"><a href="#__codelineno-14-12">12</a></span>
+<span class="normal"><a href="#__codelineno-14-13">13</a></span>
+<span class="normal"><a href="#__codelineno-14-14">14</a></span>
+<span class="normal"><a href="#__codelineno-14-15">15</a></span>
+<span class="normal"><a href="#__codelineno-14-16">16</a></span>
+<span class="normal"><a href="#__codelineno-14-17">17</a></span>
+<span class="normal"><a href="#__codelineno-14-18">18</a></span>
+<span class="normal"><a href="#__codelineno-14-19">19</a></span>
+<span class="normal"><a href="#__codelineno-14-20">20</a></span>
+<span class="normal"><a href="#__codelineno-14-21">21</a></span>
+<span class="normal"><a href="#__codelineno-14-22">22</a></span>
+<span class="normal"><a href="#__codelineno-14-23">23</a></span>
+<span class="normal"><a href="#__codelineno-14-24">24</a></span>
+<span class="normal"><a href="#__codelineno-14-25">25</a></span>
+<span class="normal"><a href="#__codelineno-14-26">26</a></span>
+<span class="normal"><a href="#__codelineno-14-27">27</a></span>
+<span class="normal"><a href="#__codelineno-14-28">28</a></span>
+<span class="normal"><a href="#__codelineno-14-29">29</a></span>
+<span class="normal"><a href="#__codelineno-14-30">30</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1"></a>请将意图、检索、Reranker、上下文和 LLM 串成完整在线问答流程。
+<a id="__codelineno-14-2" name="__codelineno-14-2"></a>
+<a id="__codelineno-14-3" name="__codelineno-14-3"></a>调用顺序必须是：
+<a id="__codelineno-14-4" name="__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5"></a>请求进入
+<a id="__codelineno-14-6" name="__codelineno-14-6"></a>→ direct route 判断
+<a id="__codelineno-14-7" name="__codelineno-14-7"></a>→ active 版本读取
+<a id="__codelineno-14-8" name="__codelineno-14-8"></a>→ 查询改写
+<a id="__codelineno-14-9" name="__codelineno-14-9"></a>→ RetrievalPlan
+<a id="__codelineno-14-10" name="__codelineno-14-10"></a>→ FAQ 检索
+<a id="__codelineno-14-11" name="__codelineno-14-11"></a>→ FAQ 高分直出判断
+<a id="__codelineno-14-12" name="__codelineno-14-12"></a>→ 文档检索
+<a id="__codelineno-14-13" name="__codelineno-14-13"></a>→ FAQ + Document 合并
+<a id="__codelineno-14-14" name="__codelineno-14-14"></a>→ Reranker 精排
+<a id="__codelineno-14-15" name="__codelineno-14-15"></a>→ 上下文构建
+<a id="__codelineno-14-16" name="__codelineno-14-16"></a>→ LLM 生成
+<a id="__codelineno-14-17" name="__codelineno-14-17"></a>→ 引用补强
+<a id="__codelineno-14-18" name="__codelineno-14-18"></a>→ 生成后核验
+<a id="__codelineno-14-19" name="__codelineno-14-19"></a>→ 返回答案、来源和诊断信息
+<a id="__codelineno-14-20" name="__codelineno-14-20"></a>
+<a id="__codelineno-14-21" name="__codelineno-14-21"></a>要求：
+<a id="__codelineno-14-22" name="__codelineno-14-22"></a>
+<a id="__codelineno-14-23" name="__codelineno-14-23"></a>- LLM 只能看到最终上下文；
+<a id="__codelineno-14-24" name="__codelineno-14-24"></a>- 答案必须返回 sources；
+<a id="__codelineno-14-25" name="__codelineno-14-25"></a>- 没有证据时明确说明资料不足；
+<a id="__codelineno-14-26" name="__codelineno-14-26"></a>- 支持 WebSocket 流式事件；
+<a id="__codelineno-14-27" name="__codelineno-14-27"></a>- 支持 HTTP 诊断接口；
+<a id="__codelineno-14-28" name="__codelineno-14-28"></a>- 记录 route、intent、kb_version、retrieval、timings；
+<a id="__codelineno-14-29" name="__codelineno-14-29"></a>- 不缓存最终 LLM 答案；
+<a id="__codelineno-14-30" name="__codelineno-14-30"></a>- 为成功、空问题、无资料、LLM 失败和权限失败添加测试。
+</code></pre></div></td></tr></table></div>
+<h2 id="_9">十、第八阶段：补齐治理、评测和观测<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-15-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-15-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-15-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-15-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-15-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-15-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-15-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-15-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-15-10">10</a></span>
+<span class="normal"><a href="#__codelineno-15-11">11</a></span>
+<span class="normal"><a href="#__codelineno-15-12">12</a></span>
+<span class="normal"><a href="#__codelineno-15-13">13</a></span>
+<span class="normal"><a href="#__codelineno-15-14">14</a></span>
+<span class="normal"><a href="#__codelineno-15-15">15</a></span>
+<span class="normal"><a href="#__codelineno-15-16">16</a></span>
+<span class="normal"><a href="#__codelineno-15-17">17</a></span>
+<span class="normal"><a href="#__codelineno-15-18">18</a></span>
+<span class="normal"><a href="#__codelineno-15-19">19</a></span>
+<span class="normal"><a href="#__codelineno-15-20">20</a></span>
+<span class="normal"><a href="#__codelineno-15-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1"></a>请只实现企业级治理能力：
+<a id="__codelineno-15-2" name="__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3"></a>1. 知识库版本激活和回滚；
+<a id="__codelineno-15-4" name="__codelineno-15-4"></a>2. tenant、dataset、visibility、role 数据隔离；
+<a id="__codelineno-15-5" name="__codelineno-15-5"></a>3. 入库质量报告；
+<a id="__codelineno-15-6" name="__codelineno-15-6"></a>4. 质量门禁；
+<a id="__codelineno-15-7" name="__codelineno-15-7"></a>5. 回归评测；
+<a id="__codelineno-15-8" name="__codelineno-15-8"></a>6. Bad Case 记录；
+<a id="__codelineno-15-9" name="__codelineno-15-9"></a>7. Trace；
+<a id="__codelineno-15-10" name="__codelineno-15-10"></a>8. 阶段耗时；
+<a id="__codelineno-15-11" name="__codelineno-15-11"></a>9. 反馈记录；
+<a id="__codelineno-15-12" name="__codelineno-15-12"></a>10. 缓存版本失效。
+<a id="__codelineno-15-13" name="__codelineno-15-13"></a>
+<a id="__codelineno-15-14" name="__codelineno-15-14"></a>要求：
+<a id="__codelineno-15-15" name="__codelineno-15-15"></a>
+<a id="__codelineno-15-16" name="__codelineno-15-16"></a>- 质量门禁不通过时禁止激活；
+<a id="__codelineno-15-17" name="__codelineno-15-17"></a>- active 版本切换必须可审计；
+<a id="__codelineno-15-18" name="__codelineno-15-18"></a>- 缓存 Key 必须包含场景、版本和权限边界；
+<a id="__codelineno-15-19" name="__codelineno-15-19"></a>- 不复用最终答案缓存 Key；
+<a id="__codelineno-15-20" name="__codelineno-15-20"></a>- Trace 能定位一次请求经过了哪些阶段；
+<a id="__codelineno-15-21" name="__codelineno-15-21"></a>- 所有治理能力都要有纯逻辑测试和至少一个集成验收命令。
+</code></pre></div></td></tr></table></div>
+<h2 id="_10">十一、第九阶段：最终验收和交付<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-16-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-16-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-16-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-16-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-16-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-16-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-16-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-16-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-16-10">10</a></span>
+<span class="normal"><a href="#__codelineno-16-11">11</a></span>
+<span class="normal"><a href="#__codelineno-16-12">12</a></span>
+<span class="normal"><a href="#__codelineno-16-13">13</a></span>
+<span class="normal"><a href="#__codelineno-16-14">14</a></span>
+<span class="normal"><a href="#__codelineno-16-15">15</a></span>
+<span class="normal"><a href="#__codelineno-16-16">16</a></span>
+<span class="normal"><a href="#__codelineno-16-17">17</a></span>
+<span class="normal"><a href="#__codelineno-16-18">18</a></span>
+<span class="normal"><a href="#__codelineno-16-19">19</a></span>
+<span class="normal"><a href="#__codelineno-16-20">20</a></span>
+<span class="normal"><a href="#__codelineno-16-21">21</a></span>
+<span class="normal"><a href="#__codelineno-16-22">22</a></span>
+<span class="normal"><a href="#__codelineno-16-23">23</a></span>
+<span class="normal"><a href="#__codelineno-16-24">24</a></span>
+<span class="normal"><a href="#__codelineno-16-25">25</a></span>
+<span class="normal"><a href="#__codelineno-16-26">26</a></span>
+<span class="normal"><a href="#__codelineno-16-27">27</a></span>
+<span class="normal"><a href="#__codelineno-16-28">28</a></span>
+<span class="normal"><a href="#__codelineno-16-29">29</a></span>
+<span class="normal"><a href="#__codelineno-16-30">30</a></span>
+<span class="normal"><a href="#__codelineno-16-31">31</a></span>
+<span class="normal"><a href="#__codelineno-16-32">32</a></span>
+<span class="normal"><a href="#__codelineno-16-33">33</a></span>
+<span class="normal"><a href="#__codelineno-16-34">34</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1"></a>请对整个项目执行发布前验收，不要修改代码。
+<a id="__codelineno-16-2" name="__codelineno-16-2"></a>
+<a id="__codelineno-16-3" name="__codelineno-16-3"></a>检查以下内容：
+<a id="__codelineno-16-4" name="__codelineno-16-4"></a>
+<a id="__codelineno-16-5" name="__codelineno-16-5"></a>1. requirements.txt 能否在全新环境安装；
+<a id="__codelineno-16-6" name="__codelineno-16-6"></a>2. docker compose config 是否通过；
+<a id="__codelineno-16-7" name="__codelineno-16-7"></a>3. Docker 服务能否正常启动；
+<a id="__codelineno-16-8" name="__codelineno-16-8"></a>4. /health 是否返回正确状态；
+<a id="__codelineno-16-9" name="__codelineno-16-9"></a>5. FAQ 和文档能否入库；
+<a id="__codelineno-16-10" name="__codelineno-16-10"></a>6. Dense 和 Sparse 字段是否存在；
+<a id="__codelineno-16-11" name="__codelineno-16-11"></a>7. Dense 索引是否为 HNSW；
+<a id="__codelineno-16-12" name="__codelineno-16-12"></a>8. Sparse 是否使用 BM25；
+<a id="__codelineno-16-13" name="__codelineno-16-13"></a>9. 三种 route 是否都能触发；
+<a id="__codelineno-16-14" name="__codelineno-16-14"></a>10. Reranker 是否在召回之后执行；
+<a id="__codelineno-16-15" name="__codelineno-16-15"></a>11. 答案是否包含来源；
+<a id="__codelineno-16-16" name="__codelineno-16-16"></a>12. 无资料时是否拒绝编造；
+<a id="__codelineno-16-17" name="__codelineno-16-17"></a>13. 知识库版本能否激活和回滚；
+<a id="__codelineno-16-18" name="__codelineno-16-18"></a>14. 权限过滤是否生效；
+<a id="__codelineno-16-19" name="__codelineno-16-19"></a>15. Redis 缓存是否带版本边界；
+<a id="__codelineno-16-20" name="__codelineno-16-20"></a>16. WebSocket 是否能正常返回 end 事件；
+<a id="__codelineno-16-21" name="__codelineno-16-21"></a>17. 单元测试、接口测试和 Smoke Test 是否通过；
+<a id="__codelineno-16-22" name="__codelineno-16-22"></a>18. README 是否可以让新开发人员独立部署。
+<a id="__codelineno-16-23" name="__codelineno-16-23"></a>
+<a id="__codelineno-16-24" name="__codelineno-16-24"></a>输出：
+<a id="__codelineno-16-25" name="__codelineno-16-25"></a>
+<a id="__codelineno-16-26" name="__codelineno-16-26"></a>- 通过项；
+<a id="__codelineno-16-27" name="__codelineno-16-27"></a>- 失败项；
+<a id="__codelineno-16-28" name="__codelineno-16-28"></a>- 风险项；
+<a id="__codelineno-16-29" name="__codelineno-16-29"></a>- 需要人工验证的项目；
+<a id="__codelineno-16-30" name="__codelineno-16-30"></a>- 最终启动命令；
+<a id="__codelineno-16-31" name="__codelineno-16-31"></a>- 最终入库命令；
+<a id="__codelineno-16-32" name="__codelineno-16-32"></a>- 最终提问命令。
+<a id="__codelineno-16-33" name="__codelineno-16-33"></a>
+<a id="__codelineno-16-34" name="__codelineno-16-34"></a>本轮不修改文件。
+</code></pre></div></td></tr></table></div>
+<h2 id="_11">十二、这类提示词最重要的五个设计原则<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 先写“业务行为”，再写“技术组件”<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<p>不要只写：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1"></a>使用 Milvus、Redis、MySQL、BGE-M3。
+</code></pre></div></td></tr></table></div>
+<p>还要写：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span>
+<span class="normal"><a href="#__codelineno-18-2">2</a></span>
+<span class="normal"><a href="#__codelineno-18-3">3</a></span>
+<span class="normal"><a href="#__codelineno-18-4">4</a></span>
+<span class="normal"><a href="#__codelineno-18-5">5</a></span>
+<span class="normal"><a href="#__codelineno-18-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1"></a>什么问题进入什么路由；
+<a id="__codelineno-18-2" name="__codelineno-18-2"></a>什么时候检索；
+<a id="__codelineno-18-3" name="__codelineno-18-3"></a>什么时候 FAQ 直出；
+<a id="__codelineno-18-4" name="__codelineno-18-4"></a>什么时候调用 LLM；
+<a id="__codelineno-18-5" name="__codelineno-18-5"></a>没有证据时如何回答；
+<a id="__codelineno-18-6" name="__codelineno-18-6"></a>知识库版本如何生效。
+</code></pre></div></td></tr></table></div>
+<h3 id="2">2. 每一轮必须限制修改范围<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>每条提示词都要有：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">3</a></span>
+<span class="normal"><a href="#__codelineno-19-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1"></a>本轮只实现什么；
+<a id="__codelineno-19-2" name="__codelineno-19-2"></a>本轮不实现什么；
+<a id="__codelineno-19-3" name="__codelineno-19-3"></a>允许修改哪些目录；
+<a id="__codelineno-19-4" name="__codelineno-19-4"></a>完成后执行什么测试。
+</code></pre></div></td></tr></table></div>
+<h3 id="3-codex-codex">3. 先让 Codex 设计，再让 Codex 写代码<a class="headerlink" href="#3-codex-codex" title="Permanent link">&para;</a></h3>
+<p>推荐顺序：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span>
+<span class="normal"><a href="#__codelineno-20-3">3</a></span>
+<span class="normal"><a href="#__codelineno-20-4">4</a></span>
+<span class="normal"><a href="#__codelineno-20-5">5</a></span>
+<span class="normal"><a href="#__codelineno-20-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1"></a>PROJECT_SPEC.md
+<a id="__codelineno-20-2" name="__codelineno-20-2"></a>→ ARCHITECTURE.md
+<a id="__codelineno-20-3" name="__codelineno-20-3"></a>→ API_CONTRACT.md
+<a id="__codelineno-20-4" name="__codelineno-20-4"></a>→ DATA_MODEL.md
+<a id="__codelineno-20-5" name="__codelineno-20-5"></a>→ 代码骨架
+<a id="__codelineno-20-6" name="__codelineno-20-6"></a>→ 模块实现
+</code></pre></div></td></tr></table></div>
+<h3 id="4">4. 每阶段都要形成证据<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p>每一阶段至少留下：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span>
+<span class="normal"><a href="#__codelineno-21-2">2</a></span>
+<span class="normal"><a href="#__codelineno-21-3">3</a></span>
+<span class="normal"><a href="#__codelineno-21-4">4</a></span>
+<span class="normal"><a href="#__codelineno-21-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1"></a>git diff
+<a id="__codelineno-21-2" name="__codelineno-21-2"></a>测试命令
+<a id="__codelineno-21-3" name="__codelineno-21-3"></a>测试结果
+<a id="__codelineno-21-4" name="__codelineno-21-4"></a>运行截图或接口返回
+<a id="__codelineno-21-5" name="__codelineno-21-5"></a>一次 git commit
+</code></pre></div></td></tr></table></div>
+<h3 id="5">5. “完整项目”必须包含可交付物<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<p>代码能运行不等于项目完成。至少还要有：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-22-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-22-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-22-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-22-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-22-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-22-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-22-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-22-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-22-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1"></a>环境变量模板
+<a id="__codelineno-22-2" name="__codelineno-22-2"></a>依赖文件
+<a id="__codelineno-22-3" name="__codelineno-22-3"></a>Docker 配置
+<a id="__codelineno-22-4" name="__codelineno-22-4"></a>数据库初始化
+<a id="__codelineno-22-5" name="__codelineno-22-5"></a>入库脚本
+<a id="__codelineno-22-6" name="__codelineno-22-6"></a>测试
+<a id="__codelineno-22-7" name="__codelineno-22-7"></a>健康检查
+<a id="__codelineno-22-8" name="__codelineno-22-8"></a>README
+<a id="__codelineno-22-9" name="__codelineno-22-9"></a>故障排查
+<a id="__codelineno-22-10" name="__codelineno-22-10"></a>发布和回滚说明
+</code></pre></div></td></tr></table></div>
+<h2 id="_12">最后怎么讲给学生<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<p>可以用下面这段话收束：</p>
+<blockquote>
+<p>“我们现在使用的提示词，是在一个已有完整项目的基础上生成 Mini RAG，所以它会先让 Codex 阅读当前代码。真正从零开发时，不能直接让 Codex 开始写业务代码，而要先让它理解业务目标、确认架构、定义接口和数据结构。之后每次只实现一个阶段，每次都运行测试、检查 diff、提交代码。Vibe Coding 不是一次性生成，而是让 Codex 参与整个项目生命周期。”</p>
+</blockquote>
+<p>因此，当前的 <code>vibe-coding-lab.md</code> 适合继续保留为：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1"></a>已有项目基础上的 Mini RAG 实践提示词
+</code></pre></div></td></tr></table></div>
+<p>如果要支持“从 0 到 1 创建完整项目”，建议另外增加一份：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1"></a>mini-rag/prompts/codex-greenfield-enterprise-rag.md
+</code></pre></div></td></tr></table></div>
+<p>两者不要混在同一份提示词中：</p>
+<table>
+<thead>
+<tr>
+<th>提示词</th>
+<th>使用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vibe-coding-lab.md</code></td>
+<td>基于现有 Mini RAG 或已有项目进行分阶段实现</td>
+</tr>
+<tr>
+<td><code>codex-greenfield-enterprise-rag.md</code></td>
+<td>在空目录中从需求、架构、骨架到完整项目逐步生成</td>
+</tr>
+</tbody>
+</table>
+<p>这样学生能够清楚区分两种能力：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span>
+<span class="normal"><a href="#__codelineno-25-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1"></a>基于已有代码使用 Codex 改造项目
+<a id="__codelineno-25-2" name="__codelineno-25-2"></a>从空目录使用 Codex 构建项目
+</code></pre></div></td></tr></table></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tracking", "navigation.expand", "navigation.indexes", "navigation.top", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="assets/javascripts/theme-toggle-fix.js"></script>
+      
+        <script src="assets/vendor/mermaid.min.js"></script>
+      
+        <script src="assets/javascripts/mermaid-init.js"></script>
+      
+        <script src="assets/javascripts/mathjax-config.js"></script>
+      
+        <script src="assets/vendor/mathjax/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
