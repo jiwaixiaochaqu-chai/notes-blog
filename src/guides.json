@@ -1,0 +1,251 @@
+[
+  {
+    "category": "RAG",
+    "file": "content/rag.md",
+    "accent": "#2f6fed",
+    "headings": [
+      {
+        "level": 2,
+        "text": "A.基础概念"
+      },
+      {
+        "level": 2,
+        "text": "一、 前置知识"
+      },
+      {
+        "level": 3,
+        "text": "1.FAQ"
+      },
+      {
+        "level": 3,
+        "text": "2.rag"
+      },
+      {
+        "level": 3,
+        "text": "（1）什么是rag?"
+      },
+      {
+        "level": 3,
+        "text": "（2）为什么要有rag?"
+      },
+      {
+        "level": 3,
+        "text": "（3）rag系统链路"
+      },
+      {
+        "level": 2,
+        "text": "二、 项目架构"
+      },
+      {
+        "level": 3,
+        "text": "docker是什么？"
+      },
+      {
+        "level": 2,
+        "text": "三、rag核心概念"
+      },
+      {
+        "level": 3,
+        "text": "一、embeding模型"
+      },
+      {
+        "level": 3,
+        "text": "二、向量数据库在RAG职责"
+      },
+      {
+        "level": 3,
+        "text": "三、dense检索和sparse检索"
+      },
+      {
+        "level": 1,
+        "text": "B.核心RAG链路"
+      },
+      {
+        "level": 2,
+        "text": "一、Langchain生态系统"
+      },
+      {
+        "level": 3,
+        "text": "1.在线问答链路中的Langchain"
+      },
+      {
+        "level": 3,
+        "text": "2.离线入库链路中的Langchain"
+      },
+      {
+        "level": 3,
+        "text": "3.Runnable和LCEL"
+      }
+    ],
+    "description": "检索增强生成的基础概念、Milvus、LangChain、在线链路、离线入库和生产化治理。",
+    "level": "工程链路",
+    "title": "RAG 知识库",
+    "id": "rag"
+  },
+  {
+    "category": "机器学习应用",
+    "file": "content/toumanfen.md",
+    "accent": "#16a085",
+    "headings": [
+      {
+        "level": 1,
+        "text": "投满分项目"
+      },
+      {
+        "level": 2,
+        "text": "1.项目背景"
+      },
+      {
+        "level": 2,
+        "text": "2.项目架构"
+      },
+      {
+        "level": 2,
+        "text": "3.项目数据来源-面试题！"
+      },
+      {
+        "level": 3,
+        "text": "3.1按业务来划分"
+      },
+      {
+        "level": 3,
+        "text": "3.2按数据格式划分"
+      },
+      {
+        "level": 3,
+        "text": "3.3按项目数据来源划分"
+      },
+      {
+        "level": 2,
+        "text": "4.代码总体架构"
+      },
+      {
+        "level": 2,
+        "text": "5.模型选择实现"
+      },
+      {
+        "level": 3,
+        "text": "5.1数据读取、处理和前后端效果"
+      },
+      {
+        "level": 3,
+        "text": "5.2随机森林模型"
+      },
+      {
+        "level": 3,
+        "text": "5.3FastText模型"
+      },
+      {
+        "level": 3,
+        "text": "5.4Bert预训练和微调"
+      },
+      {
+        "level": 3,
+        "text": "5.5大模型LLM"
+      },
+      {
+        "level": 2,
+        "text": "6.模型压缩"
+      },
+      {
+        "level": 3,
+        "text": "6.1低秩因式分解"
+      },
+      {
+        "level": 3,
+        "text": "6.2模型量化"
+      },
+      {
+        "level": 3,
+        "text": "6.3模型剪枝"
+      }
+    ],
+    "description": "文本分类项目的背景、数据来源、模型选择、TF-IDF、FastText、BERT 和模型压缩。",
+    "level": "项目实战",
+    "title": "投满分项目",
+    "id": "toumanfen"
+  },
+  {
+    "category": "基础体系",
+    "file": "content/ml-dl-nlp.md",
+    "accent": "#b25c00",
+    "headings": [
+      {
+        "level": 1,
+        "text": "一、机器学习"
+      },
+      {
+        "level": 2,
+        "text": "1.机器学习概述"
+      },
+      {
+        "level": 3,
+        "text": "1.1人工智能概念"
+      },
+      {
+        "level": 3,
+        "text": "1.2机器学习发展史"
+      },
+      {
+        "level": 3,
+        "text": "1.3机器学习常见术语"
+      },
+      {
+        "level": 3,
+        "text": "1.4机器学习算法分类"
+      },
+      {
+        "level": 3,
+        "text": "1.5机器学习建模流程！！！"
+      },
+      {
+        "level": 3,
+        "text": "1.6特征工程"
+      },
+      {
+        "level": 3,
+        "text": "1.7模型拟合问题"
+      },
+      {
+        "level": 3,
+        "text": "1.8机器学习开发环境"
+      },
+      {
+        "level": 2,
+        "text": "2.回归算法-线性回归"
+      },
+      {
+        "level": 3,
+        "text": "2.1简介"
+      },
+      {
+        "level": 3,
+        "text": "2.2线性回归问题的求解"
+      },
+      {
+        "level": 3,
+        "text": "2.3线性回归模型评估"
+      },
+      {
+        "level": 3,
+        "text": "2.4拟合问题"
+      },
+      {
+        "level": 3,
+        "text": "2.5总结？"
+      },
+      {
+        "level": 2,
+        "text": "3.KNN算法-分类问题"
+      },
+      {
+        "level": 3,
+        "text": "3.1.概念"
+      }
+    ],
+    "description": "机器学习、深度学习、PyTorch、NLP、文本表示、RNN、迁移学习和 BERT 的系统笔记。",
+    "level": "系统总结",
+    "title": "机器学习 / 深度学习 / NLP",
+    "id": "ml-dl-nlp"
+  }
+]

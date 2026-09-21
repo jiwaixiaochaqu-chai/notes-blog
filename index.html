@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome to StudyPeak - Guides</title>
+  <meta name="description" content="RAG、Agent、机器学习、深度学习和 NLP 的个人学习笔记库。">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101828'/%3E%3Cpath d='M16 17h24a8 8 0 0 1 8 8v22H24a8 8 0 0 1-8-8V17z' fill='%232f6fed'/%3E%3Cpath d='M24 25h17M24 33h14M24 41h10' stroke='white' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/guides/" aria-label="StudyPeak Guides"><span>▲</span>StudyPeak</a>
+    <nav aria-label="主导航">
+      <a href="/guides/">Guides</a>
+      <a href="/rag/">RAG</a>
+      <a href="/toumanfen/">投满分项目</a>
+      <a href="/ml-dl-nlp/">ML / DL / NLP</a>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <aside class="sidebar">
+      <div class="side-title">Documentation</div>
+      <div class="search">
+        <label for="searchInput">Search</label>
+        <input id="searchInput" type="search" placeholder="RAG、TF-IDF、BERT、Milvus...">
+      </div>
+      <div class="guide-list" id="guideList"></div>
+    </aside>
+
+    <section class="content">
+      <div class="guide-header" id="guideHeader"></div>
+      <article class="note" id="note"></article>
+    </section>
+
+    <aside class="toc">
+      <p>目录</p>
+      <div id="toc"></div>
+    </aside>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
