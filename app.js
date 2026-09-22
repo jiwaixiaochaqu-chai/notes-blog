@@ -1,4 +1,4 @@
-const ROUTE_NAMES = ["guides", "rag", "toumanfen", "ml-dl-nlp"];
+const ROUTE_NAMES = ["guides", "rag", "toumanfen", "ml-dl-nlp", "courseware"];
 
 // 根据当前页面地址自动推导站点根路径，兼容任意部署子路径
 // 例如 "/"、"/repo/"、"/repo/rag/" 都能正确得到站点根
@@ -25,8 +25,8 @@ const tocEl = document.querySelector("#toc");
 const searchInput = document.querySelector("#searchInput");
 const shellEl = document.querySelector(".shell");
 
-// rag 栏目已替换为完整课件站（courseware/，构建时铺到 /rag/），不再是 SPA 路由
 const routeById = {
+  rag: `${BASE}rag/`,
   toumanfen: `${BASE}toumanfen/`,
   "ml-dl-nlp": `${BASE}ml-dl-nlp/`
 };

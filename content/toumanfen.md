@@ -232,7 +232,7 @@ r=requests.post('http://127.0.0.1:8001./',data=text)
 >
 >计算公式：数据集总句子数/数据集中包含该词的句子数
 >
->3.TF-IDF=TF*IDF 
+>3.TF-IDF=TF*IDF
 
 ![](../assets/toumanfen-4.webp)
 
@@ -386,7 +386,7 @@ def predict_fun(text):
 >
 >词索引tenseor 且句子向量0填充到固定长度[ 101,141,0,0,0....]
 >
->掩码标记区分源数据和填充 [1,1,0,0,0] 
+>掩码标记区分源数据和填充 [1,1,0,0,0]
 >
 >3.词嵌入层
 >
@@ -426,9 +426,9 @@ def predict_fun(text):
 
 
 
->2.数据处理函数 
+>2.数据处理函数
 >
->把**['小明','小红'] [0,4]**数据使用**bert向量化器**处理成 索引，掩码向量化-张量 
+>把**['小明','小红'] [0,4]**数据使用**bert向量化器**处理成 索引，掩码向量化-张量
 >
 >def collate_fun(data):
 >
@@ -446,7 +446,7 @@ def predict_fun(text):
 
 
 
->3.数据加载器 
+>3.数据加载器
 >
 >获取数据读取类，让其经过数据处理函数 得到适合bert模型的数据
 >
@@ -484,13 +484,13 @@ def predict_fun(text):
 >
 >准备模型 model = BertLiner().to(device)
 >
->准备优化器 optimizer = AdamW(model.parameters(), lr=5e-5) 
+>准备优化器 optimizer = AdamW(model.parameters(), lr=5e-5)
 >
->准备损失函数(多分类交叉熵) loss_fn=nn.CrossEntropyLoss() 
+>准备损失函数(多分类交叉熵) loss_fn=nn.CrossEntropyLoss()
 >
 >训练轮次，**反向传播，更新梯度**
 >
->​                    **pre=model(input_ids,attention_mask)**  # 输入索引 和 掩码  
+>​                    **pre=model(input_ids,attention_mask)**  # 输入索引 和 掩码
 >
 >​                    loss=loss_fn(label,pre) 损失
 >
@@ -657,7 +657,7 @@ if __name__ == '__main__':
 
 ### 6.1低秩因式分解
 
->**将一个大矩阵(源)拆分成两个小矩阵 点积@，替代原矩阵** 
+>**将一个大矩阵(源)拆分成两个小矩阵 点积@，替代原矩阵**
 >
 >**通过梯度下降、SVD算法等方法 让A@B能接近等于大矩阵**
 >
@@ -707,7 +707,7 @@ if __name__ == '__main__':
 
 面试问题：
 
-1.部署前模型压缩用了什么？ 
+1.部署前模型压缩用了什么？
 
 动态量化，速度快且方便，具体由模型部署同事在做
 

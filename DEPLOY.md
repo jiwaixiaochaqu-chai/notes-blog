@@ -1,17 +1,17 @@
 # 博客部署指南（GitHub Pages + EdgeOne Pages 双平台）
 
 > 目标：简历上放正式链接 `https://jiwaixiaochaqu-chai.github.io/notes-blog/`，
-> 国内不挂梯子走 `https://notes-blog.edgeone.app`。
-> 全程免费，不买域名、不备案。以后想升级自定义域名，两边各加一条解析即可。
+> 国内免梯子入口暂用 `https://notes-blog.edgeone.app`。
+> 这是境外服务的免费域名，不能承诺中国大陆所有网络长期稳定；正式保证大陆访问，
+> 需要备案域名和中国大陆节点/CDN。
 
 ## 前提
 
 - 仓库已初始化并完成首次提交（本目录已是 git 仓库）。
 - 站点已全面改为**相对路径**（2026-09-21 改造），可部署在任意子路径下，
   仓库名不再受限制；本站使用仓库名 `notes-blog`。
-- **RAG 栏目已换成完整课件站**（2026-09-22）：课件源放在本目录 `courseware/`，
-  构建时整体铺到 `dist/rag/`。以后更新课件：用新版课件替换 `courseware/`
-  目录内容 → 跑 `scripts/build.ps1` → `git add -A && git commit -m "update courseware" && git push`。
+- `/rag/` 在构建时从 `D:\hm\my\zhengshi\10.rag\笔记.md` 同步最新笔记；完整课件站
+  独立保留在 `/courseware/`。更新任一源文档后运行 `npm run build`。
 
 ---
 
@@ -49,16 +49,14 @@
 1. 注册 / 登录（国内容易直连，不用梯子）
    - 注册：https://edgeone.ai/register
    - 登录：https://edgeone.ai/login
-   - 推荐直接点 **Sign Up with Google**（用 Gmail 一键注册，省掉邮箱验证码）
-   - 邮箱注册也可：邮箱 `jiwaixiaochaqu@gmail.com`，密码 `Jiwx#2026Blog`
-     （密码若被占用提示过弱，改成 `Jiwx#2026Blog!` 之类即可）
+   - 可使用 Google 或邮箱注册；不要在仓库中记录账号密码
 2. 登录后进入控制台 https://console.edgeone.ai/ ，首次进入点 **Get Started / 立即开通**
 3. `Bind GitHub` → 授权 → 选中仓库 `jiwaixiaochaqu-chai/notes-blog`
 4. 构建配置（**构建环境是 Linux，务必用下面这行命令**，原来的 PowerShell 脚本在 Linux 上跑不了）：
 
    | 配置项 | 填写值 |
    | --- | --- |
-   | Build Command | `node scripts/build.mjs` |
+   | Build Command | `npm run build` |
    | Output Directory | `dist` |
    | Node Version | 22（或默认） |
    | 加速区域 | 全球部署 |
@@ -71,8 +69,8 @@
 > 本地和 CI、EdgeOne 三处都用同一套构建逻辑；`scripts/build.ps1` 保留给 Windows 本地用。
 
 
-> 说明：edgeone.app 是腾讯的免费子域名，绝大多数地区可直连，速度中等；
-> 简历上仍建议放 GitHub Pages 地址，这个地址作为国内访问入口（或在简历上两个都放）。
+> 说明：`edgeone.app` 在不少国内网络可直连，但它不是中国大陆可用性的硬保证。
+> 上线后应分别用移动、联通、电信网络实测；简历可同时保留两个入口。
 
 ---
 
@@ -80,7 +78,7 @@
 
 ```powershell
 # 1. 改完笔记后重新构建（Node 跨平台脚本，本地/CI/EdgeOne 通用）
-node scripts/build.mjs
+npm run build
 # Windows 上也可以用老脚本：
 # powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/build.ps1
 

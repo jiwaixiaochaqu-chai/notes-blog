@@ -49,10 +49,10 @@ for (const route of routes) {
   fs.writeFileSync(path.join(dir, "index.html"), html, "utf8");
 }
 
-// 5. RAG tab: full mkdocs courseware site -> dist/rag/ (overwrites the SPA page)
+// 5. Keep the full MkDocs courseware as a separate section.
 const courseware = path.join(root, "courseware");
 if (fs.existsSync(courseware)) {
-  fs.cpSync(courseware, path.join(dist, "rag"), { recursive: true, force: true });
+  fs.cpSync(courseware, path.join(dist, "courseware"), { recursive: true, force: true });
 }
 
 // 6. report

@@ -1,5 +1,6 @@
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
+node (Join-Path $PSScriptRoot "sync-content.mjs")
 $dist = Join-Path $root "dist"
 if (Test-Path -LiteralPath $dist) { Remove-Item -LiteralPath $dist -Recurse -Force }
 New-Item -ItemType Directory -Force -Path $dist | Out-Null
@@ -25,10 +26,8 @@ foreach ($route in $routes) {
   Set-Content -LiteralPath (Join-Path $routeDir "index.html") -Value $routeHtml -NoNewline -Encoding UTF8
 }
 
-# RAG 栏目：完整课件站（mkdocs 静态站，内部全是相对链接）铺到 dist/rag/，
-# 覆盖上面写入的 SPA 模板页，访问 /rag/ 直接呈现课件首页
+# 完整 MkDocs 课件作为独立栏目保留。
 $courseware = Join-Path $root "courseware"
 if (Test-Path -LiteralPath $courseware) {
-  Copy-Item -Path (Join-Path $courseware "*") -Destination (Join-Path $dist "rag") -Recurse -Force
+  Copy-Item -LiteralPath $courseware -Destination (Join-Path $dist "courseware") -Recurse -Force
 }
-

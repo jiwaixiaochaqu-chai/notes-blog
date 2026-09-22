@@ -353,7 +353,7 @@ y=ak²+bk+c 的最小值 ->U抛物线，瞬时变化率为0时y是最小值->求
 特征过少，需要增加特征（一般需要拉取新的特征，测试一般都是加平方、立方作为测试数据）
 
 ~~~python
-x_train1=x.reshape(-1,1) 
+x_train1=x.reshape(-1,1)
 x_train2=x_train1**2
 x_train3=x_train1**3
 x_train4=x_train1**4
@@ -423,7 +423,7 @@ x_train=np.hstack([x_train1,x_train2,x_train3,x_train4,x_train5,x_train6])
 
 K近邻算法，选出距离当前数据最近的K的样本
 
-思想：如果一个样本在特征空间中的 k 个最相似的样本中的大多数属于某一个类别，则该样本也属于这个类别 
+思想：如果一个样本在特征空间中的 k 个最相似的样本中的大多数属于某一个类别，则该样本也属于这个类别
 
 K值过小过拟合，过大欠拟合
 
@@ -530,7 +530,7 @@ print(new_data2)
 >
 >方法一： model自己评估 model.score(x_test,y_test)
 >
->方法二：accuracy_score(y_test,y_pre) 
+>方法二：accuracy_score(y_test,y_pre)
 >
 >2.model.predict_proba()
 >
@@ -743,7 +743,7 @@ T和F看作猜对和猜错！！
 >
 >准确率：猜对的/全部的
 >
->精确率： 猜对正样本/猜测的样本=TP/(TP+FP)               --查准不准 
+>精确率： 猜对正样本/猜测的样本=TP/(TP+FP)               --查准不准
 >
 >召回率：  猜对正样本/真实的样本=TP/(TP+FN)              --查全不全
 >
@@ -764,7 +764,7 @@ T和F看作猜对和猜错！！
 >
 >准确率：7/10
 >
->精确率：4/5 
+>精确率：4/5
 >
 >召回率：4/6
 
@@ -808,7 +808,7 @@ print('F1-score: ',f1_score(y_true,y_pre2,pos_label='恶'))
 >
 >判断指标(特征)是否有价值
 >
->（1）基尼值 ，越小代表越好越有价值 
+>（1）基尼值 ，越小代表越好越有价值
 >
 >gini值=2(p正)（1-P正）
 >
@@ -1094,7 +1094,7 @@ print(f'最优参数：{new_model.best_params_}')
 >KMeans(n_clusters=簇数,random_state=随机种子每次训练集固定)
 
 ~~~python
-难点：布尔索引 
+难点：布尔索引
 import numpy as np
 arr = np.array([4,3,4,2,0,1])  #预测的簇
 print(arr-5) #加减运算
@@ -1195,13 +1195,13 @@ plt.show()
 
 >import torch
 >
->**(1)tensor**      
+>**(1)tensor**
 >
->通过数据创建-0维张量、1维张量、2维张量 
+>通过数据创建-0维张量、1维张量、2维张量
 >
 >默认类型int64
 >
->(2)Tensor      
+>(2)Tensor
 >
 >通过数据、维度(形状)去创建
 >
@@ -1590,7 +1590,7 @@ t8=torch.item([1,2])
 >
 >add         sub       mul_       div_           neg_            t1.add(t2) # t2加到t1
 >
->add_       sub_      mul_       div _          neg_           会修改原数据 
+>add_       sub_      mul_       div _          neg_           会修改原数据
 
 ~~~python
 # 加减乘除 取负号
@@ -1637,7 +1637,7 @@ print(data*-1)
 >
 >​           两个形状相同的张量相乘，每个位置相乘
 >
->点积：matmul @ 
+>点积：matmul @
 >
 >​          1.前提：A列=B行
 >
@@ -1678,7 +1678,7 @@ print(t3.sign())
 
 >**掌握：**sum(dim)！！！！
 >
->1.求和 sum(dim=维度) 
+>1.求和 sum(dim=维度)
 >
 >eg:
 >
@@ -1698,7 +1698,7 @@ print(t3.sign())
 >
 >第1维：最外面一层[]中的下一层[[]]中的内容 进行数据求和，合并成1条
 >
->2.平均mean(必须是浮点数) 最大max 最小min 
+>2.平均mean(必须是浮点数) 最大max 最小min
 >
 >3.开方sqrt(必须是浮点数) 平方square 幂pow 绝对值abs\absoulte
 >
@@ -1788,13 +1788,13 @@ data=torch.randint(1,10,(3,4))
 
 #### 1.11.1简单行列索引
 
->1.行  data[0]  
+>1.行  data[0]
 >
->取第0行，逻辑：取0维的第一个   
+>取第0行，逻辑：取0维的第一个
 >
 >语法糖，完整写法data[0,:]
 >
->2.列  data[:,0] 
+>2.列  data[:,0]
 >
 >取第1列，逻辑：取0维所有，取1维的第一个
 
@@ -1934,7 +1934,7 @@ print(mul_data[:,:,0])
 >
 >不改变原数据的前提下，改变形状
 >
->-1表示自动计算   
+>-1表示自动计算
 >
 >2.view(0维,1维,2维)    **了解**
 >
@@ -2016,7 +2016,7 @@ print(data,data.shape) # 2,3,3
 >
 >损失函数：Loss=2*W**2
 >
->API： 损失函数.backward()  ->W.data权重 W.grad梯度 W.gard.zeros_() 梯度会累加，需要清空 
+>API： 损失函数.backward()  ->W.data权重 W.grad梯度 W.gard.zeros_() 梯度会累加，需要清空
 >
 >前提：损失函数必须是设置了require_grad的相关函数
 
@@ -2099,11 +2099,11 @@ print(t2,t2.detach().numpy())
 >
 >2.准备
 >
->​     2.1 数据准备： 
+>​     2.1 数据准备：
 >
 >​							数据->张量tensor->数据集dataset->数据加载器dataloader
 >
->​     2.2 模型准备： 
+>​     2.2 模型准备：
 >
 >​							模型创建torch.nn.linear(in=1,out=1)、
 >
@@ -2111,27 +2111,27 @@ print(t2,t2.detach().numpy())
 >
 >3.模型训练： 训练几轮，每轮训几批，每批训几条
 >
->​        3.1模型预测 
+>​        3.1模型预测
 >
 >​				y_pre=model(x_train)
 >
->​		3.2定义损失函数 
+>​		3.2定义损失函数
 >
 >​				loss_fn=MSELoss()
 >
->​		3.3计算损失 
+>​		3.3计算损失
 >
 >​			    loss=loss_fn(y_pre,y)
 >
->​		3.4自动微分 
+>​		3.4自动微分
 >
 >​			    loss.backward()
 >
->​		3.5更新梯度 
+>​		3.5更新梯度
 >
 >​			    optimizer.step()
 >
->​		3.6梯度清零 
+>​		3.6梯度清零
 >
 >​			   optimizer.zero_gard()
 
@@ -2348,11 +2348,11 @@ if __name__ == '__main__':
 >
 >​           3.5 固定值                                   constant(fc.weight,0.123)
 >
->​           **3.6He(kaiming)初始化**             kaiming_normal  kaiming_uniform  
+>​           **3.6He(kaiming)初始化**             kaiming_normal  kaiming_uniform
 >
 >​                                                                关注输入神经元数据数量，和Relu激活函数适配
 >
->​           **3.7xavier**                                    xavier_normal      xavier_uniform  
+>​           **3.7xavier**                                    xavier_normal      xavier_uniform
 >
 >​                                                                关注输入+输出，和sigmoid、tenh激活函数适配
 
@@ -2364,7 +2364,7 @@ if __name__ == '__main__':
 >
 >def __ init __(self):
 >
->​          2.1 继承父类方法 
+>​          2.1 继承父类方法
 >
 >​	             super().__ init __ ()
 >
@@ -2380,13 +2380,13 @@ if __name__ == '__main__':
 >
 >​                  torch.nn.init. xavier_normal(self.fc1.weight)
 >
->​                  ......			
+>​                  ......
 >
 >​            2.4 初始化每层偏置
 >
 >​                  torch.nn.init. ones(self.fc1.bias)
 >
->​                  ......	
+>​                  ......
 >
 >3.定义一个forward方法，实现前向传播
 >
@@ -2473,7 +2473,7 @@ if __name__ == '__main__':
 >
 >1.分类问题
 >
->BCELoss 二分类  
+>BCELoss 二分类
 >
 >CrossEntropyLoss 多分类  使用softmax将某类别预测分数转为概率的形式
 >
@@ -2549,8 +2549,8 @@ if __name__ == '__main__':
 >
 >eg:
 >
->隐藏层1输入 z_in1=w1 * x1+w2 * x2+...+b  
->隐藏层1输出 z_out =   sigmoid(z_in1) 
+>隐藏层1输入 z_in1=w1 * x1+w2 * x2+...+b
+>隐藏层1输出 z_out =   sigmoid(z_in1)
 >隐藏层2输入 z_in2  =   z_out1 * w1+z_out2 * w2+...+b
 >隐藏层2输出 z_out2  =  sigmoid(z_in2)
 >
@@ -2567,7 +2567,7 @@ if __name__ == '__main__':
 >eg：
 >
 >d_total         d_total      d_z_out2      d_z_in2        d_z_out1     d_z_in1
->————  =  ———— *  ———— *  ————  *  ————  * ———— 
+>————  =  ———— *  ———— *  ————  *  ————  * ————
 >w1           d_z_out2      d_z_in2       d_z_out1       d_z_in1           w1
 
 ![img](../assets/ml-dl-nlp-2.webp)
@@ -2594,7 +2594,7 @@ if __name__ == '__main__':
 >
 >
 >
->公式：s_t=βs_t-1+(1-β)g_t 
+>公式：s_t=βs_t-1+(1-β)g_t
 >
 >s_t-1为历史指数加权平均梯度、 g_t为当前时刻梯度
 >
@@ -2742,7 +2742,7 @@ dm01()
 >
 >6 -> 0.01
 
->1.设置学习率衰减策略 
+>1.设置学习率衰减策略
 >
 >**scheduler=optim.lr_scheduler.StepLR(优化器,step_size=5,gamma=0.1) **
 >
@@ -2794,7 +2794,7 @@ for i in range(50):
 
 >指定更新的步长范围[3,5,10] 衰减率0.1
 >
->1.设置学习率衰减策略 
+>1.设置学习率衰减策略
 >
 >**scheduler=optim.lr_scheduler.MultiStepLR(优化器,milestones=[3,5,10],gamma=0.1) **
 >
@@ -2808,9 +2808,9 @@ for i in range(50):
 
 #### 按指数学习率衰减-衰减率
 
->1.设置学习率衰减策略 
+>1.设置学习率衰减策略
 >
->**scheduler=optim.lr_scheduler.ExponentialLR(优化器,gamma=0.9)** 
+>**scheduler=optim.lr_scheduler.ExponentialLR(优化器,gamma=0.9)**
 >
 >2.更新学习率
 >
@@ -2846,7 +2846,7 @@ for i in range(50):
 >
 >​                2.API-手动挡(主动告知当前的训练模式)dropout=torch.dropout(data,p=0.2,train=True) # p为失活概率 train为是否开启
 
-![](../assets/ml-dl-nlp-dropout2.webp)
+![img](../assets/ml-dl-nlp-dropout2.webp)
 
 ### 5.2BN批量归一正则化
 
@@ -2868,7 +2868,7 @@ for i in range(50):
 
 ## 6.案例
 
->1.流程 
+>1.流程
 >
 >准备数据
 >
@@ -3524,13 +3524,13 @@ for i,word in enumerate(words):
 
 不会重复，带有语义，适合文本分析
 
->**jieba.cut(sentence,cut_all=False) ** 
+>**jieba.cut(sentence,cut_all=False) **
 >
 >cut_all默认未false,可省略
 >
 >cut结果是生成器generator,通过next()或[i for i in result]得到结果
 >
->**jieba.lcut(sentence,cut_all=False) ** 
+>**jieba.lcut(sentence,cut_all=False) **
 >
 >lcut结果是列表
 
@@ -3554,7 +3554,7 @@ for i,word in enumerate(words):
 
 >1.自定义字典格式：xx.txt
 >
->|  词   | 词频  | 词性 |      
+>|  词   | 词频  | 词性 |
 >
 >| 传智|   10   |    n    |
 
@@ -3674,7 +3674,7 @@ NLP中文本词向量表示方法：one-hot\Word2vec\word Embedding
 
 >**词映射器Tokenizer,形成词:索引 词表**
 >
->实例化 t=Tokenizer() 
+>实例化 t=Tokenizer()
 >
 >训练     tokenizer.fit_on_texts(cabs)
 >
@@ -3778,7 +3778,7 @@ if __name__ == '__main__':
 
 ![](../assets/ml-dl-nlp-5.webp)
 
-![](../assets/ml-dl-nlp-6.webp)
+![6](../assets/ml-dl-nlp-6.webp)
 
 ### 知识回顾
 
@@ -3800,7 +3800,7 @@ if __name__ == '__main__':
 >
 >国内 魔搭社区modelscope,有预处理数据
 
-## 
+##
 
 ### 4.3文本张量表示方式
 
@@ -3824,11 +3824,11 @@ if __name__ == '__main__':
 >
 >import fasttext 将词变成词向量,以及文本分类工具
 >
->1.直接训练 
+>1.直接训练
 >
 >fasttext.train_supervised(‘文件’)
 >
->2.使用超参训练 
+>2.使用超参训练
 >
 >fasttext.train_unsuperviesd(‘文件’,model,lr,dim,epoch,theard)
 >
@@ -4102,7 +4102,7 @@ plt.show()
 >
 >返回类型：迭代器
 
->train_data['sentence'].str.len() 
+>train_data['sentence'].str.len()
 >
 >也可以获取当前句子的长度
 
@@ -4495,9 +4495,9 @@ if __name__ == '__main__':
 
 可以是多个神经元组成的？是
 
-![](../assets/ml-dl-nlp-7.webp)
+![7](../assets/ml-dl-nlp-7.webp)
 
-![](../assets/ml-dl-nlp-8.webp)
+![8](../assets/ml-dl-nlp-8.webp)
 
 ![](../assets/ml-dl-nlp-6.webp)
 
@@ -4539,7 +4539,7 @@ if __name__ == '__main__':
 >
 >口语化解释：遗忘门决定旧的信息要忘掉（从记忆细胞中获取，接近1保留，0忘记），输入门决定新的信息要保留哪些，细胞状态将遗忘门和输入门的输入进行长期保存，输出门决定从细胞状态中挑选重点给下一个（相册）
 
-![](../assets/ml-dl-nlp-LSTM.webp) 
+![](../assets/ml-dl-nlp-LSTM.webp)
 
 >双向Bi-LSTM模型
 >
@@ -4551,9 +4551,9 @@ if __name__ == '__main__':
 >
 >rnn=torch.nn.LSTM(input_size,hidden_size,num_layers,bidirectional)
 >
->input_size输入维度|词向量维度 
+>input_size输入维度|词向量维度
 >
->hidden_size隐藏层|输出维度 
+>hidden_size隐藏层|输出维度
 >
 >num_layers隐藏层层数
 >
@@ -4593,7 +4593,7 @@ if __name__ == '__main__':
 >
 >4.缺点：不可并行计算
 
-![](../assets/ml-dl-nlp-Snipaste_2026-08-20_11-52-14.webp)
+![img](../assets/ml-dl-nlp-Snipaste_2026-08-20_11-52-14.webp)
 
 ![](../assets/ml-dl-nlp-GRU.webp)
 
@@ -4603,9 +4603,9 @@ if __name__ == '__main__':
 >
 >rnn=torch.nn.GRU(input_size,hidden_size,num_layers,bidirectional)
 >
->input_size输入维度|词向量维度 
+>input_size输入维度|词向量维度
 >
->hidden_size隐藏层|输出维度 
+>hidden_size隐藏层|输出维度
 >
 >num_layers隐藏层层数
 >
@@ -4757,7 +4757,7 @@ print('验证集：',result2)
 >
 >4.修改n-gram,参数:wordgram
 >
->5.修改损失计算方式loss：ns传统softmax改为hs层次softmax 
+>5.修改损失计算方式loss：ns传统softmax改为hs层次softmax
 >
 >6.自动超参调优
 >
@@ -5084,7 +5084,7 @@ def dm06():
 
 >**流程**
 >
->导包 
+>导包
 >
 >1.准备配置文件 AutoConfig.from_pretrained('模型路径')
 >
@@ -5094,7 +5094,7 @@ def dm06():
 >
 >4.数据转张量 tokenizer.encode(data,return_tensors,padding,truncation,max_length)
 >
->data:要编码的数据  
+>data:要编码的数据
 >
 >return_tensors:返回的张量类型pt(pytorch)|tf(tensorflow)|np(numpy)
 >
@@ -5450,3 +5450,41 @@ seq2seq 句子到句子-》因为最早应用在机器翻译
 ## 11.bert模型
 
 ![](../assets/ml-dl-nlp-Snipaste_2026-08-20_15-35-12.webp)
+
+3+2+12+12+768
+
+>3个embedding文本向量化：
+>
+>token单词 segment句子 position位置PE
+>
+>2个训练策略：
+>
+>MLM掩码语言模型
+>
+>NSP下个句子预测
+>
+>12：编码器 12：自注意力机制头
+
+## 12.transformer
+
+![](../assets/ml-dl-nlp-01.png)
+
+![02](../assets/ml-dl-nlp-02.png)
+
+![03](../assets/ml-dl-nlp-03.png)
+
+![04](../assets/ml-dl-nlp-04.png)
+
+![05](../assets/ml-dl-nlp-05.png)
+
+![06](../assets/ml-dl-nlp-06.png)
+
+输入：input embedding、positional encoding位置编码
+
+局部特征：多头自注意力机制
+
+掩码多头自注意力机制: softmax（(q@k逆置)*mask/开跟号dk） * v
+
+注意力：softmax(q*k逆置/开号dk) * v=z
+
+输入-向量化-位置编码(使用三角函数，奇数余弦，偶数正弦)-输入*w得到qkv-多头自注意力 softmax(q*k逆置/开号dk) * v-残差结构+x

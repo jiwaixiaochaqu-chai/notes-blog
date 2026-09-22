@@ -1,12 +1,183 @@
 [
   {
+    "id": "rag",
+    "category": "RAG",
+    "accent": "#2f6fed",
+    "description": "检索增强生成的基础概念、Milvus、LangChain、在线链路、离线入库和生产化治理。",
+    "level": "工程链路",
+    "title": "RAG 知识库",
+    "file": "content/rag.md",
+    "headings": [
+      {
+        "level": 2,
+        "text": "A.基础概念"
+      },
+      {
+        "level": 2,
+        "text": "一、 前置知识"
+      },
+      {
+        "level": 3,
+        "text": "1.FAQ"
+      },
+      {
+        "level": 3,
+        "text": "2.rag"
+      },
+      {
+        "level": 3,
+        "text": "（1）什么是rag?"
+      },
+      {
+        "level": 3,
+        "text": "（2）为什么要有rag?"
+      },
+      {
+        "level": 3,
+        "text": "（3）rag系统链路"
+      },
+      {
+        "level": 2,
+        "text": "二、 项目架构"
+      },
+      {
+        "level": 3,
+        "text": "docker是什么？"
+      },
+      {
+        "level": 2,
+        "text": "三、rag核心概念"
+      },
+      {
+        "level": 3,
+        "text": "一、embeding模型"
+      },
+      {
+        "level": 3,
+        "text": "二、向量数据库在RAG职责"
+      },
+      {
+        "level": 3,
+        "text": "三、dense检索和sparse检索"
+      },
+      {
+        "level": 1,
+        "text": "B.核心RAG链路"
+      },
+      {
+        "level": 2,
+        "text": "一、Langchain生态系统"
+      },
+      {
+        "level": 3,
+        "text": "1.在线问答链路中的Langchain"
+      },
+      {
+        "level": 3,
+        "text": "2.离线入库链路中的Langchain"
+      },
+      {
+        "level": 3,
+        "text": "3.Runnable和LCEL"
+      },
+      {
+        "level": 2,
+        "text": "二、milvus索引机制与基本操作"
+      },
+      {
+        "level": 3,
+        "text": "1.milvus"
+      },
+      {
+        "level": 3,
+        "text": "2.检索"
+      },
+      {
+        "level": 3,
+        "text": "3.pymilvus基本操作与原生混合检索"
+      },
+      {
+        "level": 1,
+        "text": "为 dense 字段添加 HNSW 索引"
+      },
+      {
+        "level": 1,
+        "text": "Upsert = Update + Insert："
+      },
+      {
+        "level": 1,
+        "text": "- 主键（pk）已存在 → 按输入值更新记录"
+      },
+      {
+        "level": 1,
+        "text": "- 主键不存在 → 插入新记录"
+      },
+      {
+        "level": 1,
+        "text": "- 幂等性：使用相同 pk主键 和相同数据重复执行任意次数，"
+      },
+      {
+        "level": 1,
+        "text": "最终结果与只执行一次相同，不会重复插入"
+      },
+      {
+        "level": 1,
+        "text": "释放 Collection 的查询资源，将已加载的数据从内存卸载"
+      },
+      {
+        "level": 1,
+        "text": "不会删除 Collection 或持久化数据；之后可重新 load"
+      },
+      {
+        "level": 3,
+        "text": "4.pymilvus与langchain_milvus混合检索对比"
+      },
+      {
+        "level": 3,
+        "text": "5.milvus完整架构"
+      },
+      {
+        "level": 2,
+        "text": "三、rag在线链路"
+      },
+      {
+        "level": 3,
+        "text": "1、websocket api接口"
+      },
+      {
+        "level": 3,
+        "text": "2、QAservic服务编排"
+      },
+      {
+        "level": 3,
+        "text": "3、RAG Pipeline 主流程"
+      },
+      {
+        "level": 3,
+        "text": "4.意图识别！"
+      },
+      {
+        "level": 3,
+        "text": "stage0"
+      },
+      {
+        "level": 3,
+        "text": "stage1路由判断"
+      },
+      {
+        "level": 3,
+        "text": "stage2 检索准备"
+      }
+    ]
+  },
+  {
     "category": "机器学习应用",
     "file": "content/toumanfen.md",
     "accent": "#16a085",
     "headings": [
       {
         "level": 1,
-        "text": "文本分类项目"
+        "text": "投满分项目"
       },
       {
         "level": 2,
@@ -18,7 +189,7 @@
       },
       {
         "level": 2,
-        "text": "3.项目数据来源"
+        "text": "3.项目数据来源-面试题！"
       },
       {
         "level": 3,
@@ -45,8 +216,56 @@
         "text": "5.1数据读取、处理和前后端效果"
       },
       {
+        "level": 1,
+        "text": "告诉(映射)route,当有人访问这个网址时，执行的函数"
+      },
+      {
+        "level": 1,
+        "text": "用户浏览器访问 http://你的网站/login"
+      },
+      {
+        "level": 1,
+        "text": "↓"
+      },
+      {
+        "level": 1,
+        "text": "Flask 收到了请求，查一下路由表"
+      },
+      {
+        "level": 1,
+        "text": "↓"
+      },
+      {
+        "level": 1,
+        "text": "✅ /login → 对应 login() 函数 → 调用它 → 返回 \"登录页面\""
+      },
+      {
+        "level": 1,
+        "text": "host:地址 port:端口 debug:调试模式,代码修改时实时反应服务器"
+      },
+      {
         "level": 3,
         "text": "5.2随机森林模型"
+      },
+      {
+        "level": 1,
+        "text": "1. 查看第一步：词 -> 索引（字典）"
+      },
+      {
+        "level": 1,
+        "text": "输出：{'恭喜': 0, '中奖': 1, '免费': 2}"
+      },
+      {
+        "level": 1,
+        "text": "2. 查看第二步：索引 -> 权重（数组）"
+      },
+      {
+        "level": 1,
+        "text": "输出：[1.405, 1.0, 1.405]"
+      },
+      {
+        "level": 1,
+        "text": "3. 验证你的想法：模拟查找 '中奖' 的权重"
       },
       {
         "level": 3,
@@ -61,6 +280,10 @@
         "text": "5.5大模型LLM"
       },
       {
+        "level": 1,
+        "text": "调用LLM大模型接口，输入文本，让其进行分类生成结果"
+      },
+      {
         "level": 2,
         "text": "6.模型压缩"
       },
@@ -73,8 +296,16 @@
         "text": "6.2模型量化"
       },
       {
+        "level": 1,
+        "text": "TODO-动态量化模型参数 int8"
+      },
+      {
         "level": 3,
         "text": "6.3模型剪枝"
+      },
+      {
+        "level": 3,
+        "text": "6.4知识蒸馏"
       }
     ],
     "description": "文本分类项目的背景、数据来源、模型选择、TF-IDF、FastText、BERT 和模型压缩。",
@@ -140,12 +371,56 @@
         "text": "2.2线性回归问题的求解"
       },
       {
+        "level": 1,
+        "text": "机器建模流程"
+      },
+      {
+        "level": 1,
+        "text": "1.准备数据"
+      },
+      {
+        "level": 1,
+        "text": "2.数据预处理-缺失、无效(不需要)"
+      },
+      {
+        "level": 1,
+        "text": "3.特征工程（不需要）"
+      },
+      {
+        "level": 1,
+        "text": "4.模型训练"
+      },
+      {
+        "level": 1,
+        "text": "4.1 找个算法（实例化）"
+      },
+      {
+        "level": 1,
+        "text": "4.2 训练模型(拟合)"
+      },
+      {
+        "level": 1,
+        "text": "5.模型预测"
+      },
+      {
+        "level": 1,
+        "text": "通过模型获取 权重（斜率）+偏置(截距)"
+      },
+      {
+        "level": 1,
+        "text": "6.模型评估"
+      },
+      {
         "level": 3,
         "text": "2.3线性回归模型评估"
       },
       {
         "level": 3,
         "text": "2.4拟合问题"
+      },
+      {
+        "level": 1,
+        "text": "hstack作用：[[1],[2]] [[3],[4]]-》[[1,3],[2,4]]"
       },
       {
         "level": 3,
@@ -158,6 +433,50 @@
       {
         "level": 3,
         "text": "3.1.概念"
+      },
+      {
+        "level": 3,
+        "text": "3.2分类"
+      },
+      {
+        "level": 1,
+        "text": "思想：分类问题-预测特征和训练特征之间获取欧式距离（x1-x2 y1-y2 平方开跟 勾股定理），预测的找最近5个欧式距离，投票出结果"
+      },
+      {
+        "level": 1,
+        "text": "1.准备数据"
+      },
+      {
+        "level": 1,
+        "text": "标签"
+      },
+      {
+        "level": 1,
+        "text": "2.训练模型"
+      },
+      {
+        "level": 1,
+        "text": "k值得定义默认5!!! 奇数，2的话因为数据少会有50%概率是喜剧"
+      },
+      {
+        "level": 1,
+        "text": "3.预测"
+      },
+      {
+        "level": 3,
+        "text": "3.3回归"
+      },
+      {
+        "level": 1,
+        "text": "思想：算平均值"
+      },
+      {
+        "level": 1,
+        "text": "1.准备数据"
+      },
+      {
+        "level": 1,
+        "text": "标签（连续的值）"
       }
     ],
     "description": "机器学习、深度学习、PyTorch、NLP、文本表示、RNN、迁移学习和 BERT 的系统笔记。",
