@@ -208,13 +208,10 @@ function renderGuidesIndex() {
       </section>
     </div>
 
-    <h2 id="explore-the-docs">Explore the docs</h2>
-    ${renderDirectoryCards(state.guides)}
   `;
   tocEl.innerHTML = `
     <a href="#get-started">Get started</a>
     <a href="#current-focus">Current focus</a>
-    <a href="#explore-the-docs">Explore the docs</a>
   `;
 }
 
