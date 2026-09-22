@@ -6,7 +6,7 @@
     "headings": [
       {
         "level": 1,
-        "text": "投满分项目"
+        "text": "文本分类项目"
       },
       {
         "level": 2,
@@ -18,7 +18,7 @@
       },
       {
         "level": 2,
-        "text": "3.项目数据来源-面试题！"
+        "text": "3.项目数据来源"
       },
       {
         "level": 3,
@@ -79,7 +79,7 @@
     ],
     "description": "文本分类项目的背景、数据来源、模型选择、TF-IDF、FastText、BERT 和模型压缩。",
     "level": "项目实战",
-    "title": "投满分项目",
+    "title": "文本分类项目",
     "id": "toumanfen"
   },
   {

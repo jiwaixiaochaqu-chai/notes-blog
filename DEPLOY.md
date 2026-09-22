@@ -9,6 +9,9 @@
 - 仓库已初始化并完成首次提交（本目录已是 git 仓库）。
 - 站点已全面改为**相对路径**（2026-09-21 改造），可部署在任意子路径下，
   仓库名不再受限制；本站使用仓库名 `notes-blog`。
+- **RAG 栏目已换成完整课件站**（2026-09-22）：课件源放在本目录 `courseware/`，
+  构建时整体铺到 `dist/rag/`。以后更新课件：用新版课件替换 `courseware/`
+  目录内容 → 跑 `scripts/build.ps1` → `git add -A && git commit -m "update courseware" && git push`。
 
 ---
 
@@ -38,18 +41,35 @@
 
 ---
 
-## 第二步：部署到 EdgeOne Pages（国内可直连，约 10 分钟）
+## 第二步：部署到 EdgeOne Pages 国际版（国内可直连，约 10 分钟）
 
-1. 打开 EdgeOne Pages 控制台：https://console.cloud.tencent.com/edgeone/pages
-   （没有腾讯云账号就注册一个，微信扫码即可，个人免费版够用）
-2. `创建项目` → 选择 **从 GitHub 导入**（推荐，以后 push 自动更新）
-   - 授权 GitHub，选中你的 `notes-blog` 仓库
-   - **项目名称填 `notes-blog`**（决定最终网址）
-   - 构建配置：框架选"无/静态"，构建输出目录填 `dist`
-   - 如果不想连 GitHub，也可以选"直接上传"，把本地 `dist` 文件夹拖进去
-3. 部署完成后得到：`https://notes-blog.edgeone.app` —— 国内直连可访问
-   （若提示该子域名已被占用，换个名字即可，其余不变）
-4. 用不挂梯子的浏览器/手机流量访问验证一下
+> 用的是**国际版 edgeone.ai**，不是国内腾讯云控制台。国内版 Makers 只给 3 小时临时预览域名，
+> 国际版才给免费的永久子域名 `xxx.edgeone.app`。
+
+1. 注册 / 登录（国内容易直连，不用梯子）
+   - 注册：https://edgeone.ai/register
+   - 登录：https://edgeone.ai/login
+   - 推荐直接点 **Sign Up with Google**（用 Gmail 一键注册，省掉邮箱验证码）
+   - 邮箱注册也可：邮箱 `jiwaixiaochaqu@gmail.com`，密码 `Jiwx#2026Blog`
+     （密码若被占用提示过弱，改成 `Jiwx#2026Blog!` 之类即可）
+2. 登录后进入控制台 https://console.edgeone.ai/ ，首次进入点 **Get Started / 立即开通**
+3. `Bind GitHub` → 授权 → 选中仓库 `jiwaixiaochaqu-chai/notes-blog`
+4. 构建配置（**构建环境是 Linux，务必用下面这行命令**，原来的 PowerShell 脚本在 Linux 上跑不了）：
+
+   | 配置项 | 填写值 |
+   | --- | --- |
+   | Build Command | `node scripts/build.mjs` |
+   | Output Directory | `dist` |
+   | Node Version | 22（或默认） |
+   | 加速区域 | 全球部署 |
+
+5. 点 **Start Deployment**，约 1 分钟构建完成，系统分配默认域名
+   （形如 `notes-blog-xxxx.edgeone.app`；若 `notes-blog.edgeone.app` 未被占用会直接用它）
+6. 不挂梯子访问该域名验证。以后 push 到 main 会自动重新部署
+
+> 仓库已带好跨平台构建脚本 `scripts/build.mjs`（2026-09-22 新增），
+> 本地和 CI、EdgeOne 三处都用同一套构建逻辑；`scripts/build.ps1` 保留给 Windows 本地用。
+
 
 > 说明：edgeone.app 是腾讯的免费子域名，绝大多数地区可直连，速度中等；
 > 简历上仍建议放 GitHub Pages 地址，这个地址作为国内访问入口（或在简历上两个都放）。
@@ -59,8 +79,10 @@
 ## 日常更新流程
 
 ```powershell
-# 1. 改完笔记后重新构建
-powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/build.ps1
+# 1. 改完笔记后重新构建（Node 跨平台脚本，本地/CI/EdgeOne 通用）
+node scripts/build.mjs
+# Windows 上也可以用老脚本：
+# powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/build.ps1
 
 # 2. 提交并推送（GitHub Pages 和 EdgeOne 会同时自动更新）
 git add -A
