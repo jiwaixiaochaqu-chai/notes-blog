@@ -1,9 +1,9 @@
 # 博客部署指南（GitHub Pages + EdgeOne Pages 双平台）
 
 > 目标：简历上放正式链接 `https://jiwaixiaochaqu-chai.github.io/notes-blog/`，
-> 国内免梯子入口暂用 `https://notes-blog.edgeone.app`。
-> 这是境外服务的免费域名，不能承诺中国大陆所有网络长期稳定；正式保证大陆访问，
-> 需要备案域名和中国大陆节点/CDN。
+> GitHub Pages：`https://jiwaixiaochaqu-chai.github.io/notes-blog/`。
+> EdgeOne 国际站：`https://notes-blog.edgeone.dev`。该默认域名在中国大陆会返回 401；
+> 若要长期稳定、免梯子访问，需要给 EdgeOne 项目绑定自定义域名。
 
 ## 前提
 
@@ -41,10 +41,10 @@
 
 ---
 
-## 第二步：部署到 EdgeOne Pages 国际版（国内可直连，约 10 分钟）
+## 第二步：部署到 EdgeOne Makers 国际版
 
-> 用的是**国际版 edgeone.ai**，不是国内腾讯云控制台。国内版 Makers 只给 3 小时临时预览域名，
-> 国际版才给免费的永久子域名 `xxx.edgeone.app`。
+> 当前国际站项目 ID 为 `makers-ynucpxxh5bxc`，生产地址为
+> `https://notes-blog.edgeone.dev`。默认域名不面向中国大陆公开访问。
 
 1. 注册 / 登录（国内容易直连，不用梯子）
    - 注册：https://edgeone.ai/register
@@ -61,16 +61,15 @@
    | Node Version | 22（或默认） |
    | 加速区域 | 全球部署 |
 
-5. 点 **Start Deployment**，约 1 分钟构建完成，系统分配默认域名
-   （形如 `notes-blog-xxxx.edgeone.app`；若 `notes-blog.edgeone.app` 未被占用会直接用它）
-6. 不挂梯子访问该域名验证。以后 push 到 main 会自动重新部署
+5. 点 **Start Deployment**，等待构建完成并验证生产地址
+6. 要提供中国大陆长期访问，在项目的域名设置中绑定自己可管理 DNS 的域名
 
 > 仓库已带好跨平台构建脚本 `scripts/build.mjs`（2026-09-22 新增），
 > 本地和 CI、EdgeOne 三处都用同一套构建逻辑；`scripts/build.ps1` 保留给 Windows 本地用。
 
 
-> 说明：`edgeone.app` 在不少国内网络可直连，但它不是中国大陆可用性的硬保证。
-> 上线后应分别用移动、联通、电信网络实测；简历可同时保留两个入口。
+> 说明：中国大陆区域的系统预览链接只有约 3 小时有效；国际站默认域名在大陆返回 401。
+> 自定义域名是 EdgeOne 官方给出的长期访问方案，上线后仍应分别用移动、联通、电信实测。
 
 ---
 
